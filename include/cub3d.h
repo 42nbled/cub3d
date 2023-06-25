@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 07:07:37 by nbled             #+#    #+#             */
-/*   Updated: 2023/06/23 12:21:02 by nbled            ###   ########.fr       */
+/*   Updated: 2023/06/25 11:53:51 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,16 @@
 # define KEY_A			97
 # define KEY_S			115
 # define KEY_D			100
+# define KEY_Q			113
+# define KEY_E			101
+
+# define RED     "\x1b[31;1m"
+# define GREEN   "\x1b[32;1m"
+# define YELLOW  "\x1b[33;1m"
+# define BLUE    "\x1b[34;1m"
+# define MAGENTA "\x1b[35;1m"
+# define CYAN    "\x1b[36;1m"
+# define END    "\x1b[0m"
 
 # include	"mlx.h"
 # include <X11/X.h>
@@ -26,6 +36,7 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <string.h>
+# include <math.h>
 
 typedef struct	s_data {
 	void	*mlx;
@@ -38,8 +49,7 @@ typedef struct	s_data {
 
 	double	player_x;
 	double	player_y;
-	double	cursor_x;
-	double	cursor_y;
+	double	player_angle;
 	char	**map;
 }				t_data;
 

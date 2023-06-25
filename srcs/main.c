@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 06:59:35 by nbled             #+#    #+#             */
-/*   Updated: 2023/06/23 15:01:01 by nbled            ###   ########.fr       */
+/*   Updated: 2023/06/25 12:45:25 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,11 +96,27 @@ void	print_player(t_data *data)
 		data->player_x * 50 + 5,
 		data->player_y * 50 - 5,
 		data->player_y * 50 + 5, 0xFFFF00);
-	print_square(data,
-		data->cursor_x * 50 - 5,
-		data->cursor_x * 50 + 5,
-		data->cursor_y * 50 - 5,
-		data->cursor_y * 50 + 5, 0x00FF00);
+}
+
+// ---- RAYCASTING ------------------------
+
+int	find_wall(t_data *data, double m, double c)
+{
+	int	x;
+	int	y;
+
+	x = data->player_x;
+	while (x < 8)
+	{
+		y = m * x + c;
+		if (y >= 0 && y < 400 && data->map[y/50][x] == 1)
+		{
+			printf(RED"%d "END"%d\n", x / 50, y / 50);
+			return (y);
+		}
+		x++;
+	}
+	return (y);
 }
 
 int	print_ray(t_data *data)
@@ -109,23 +125,20 @@ int	print_ray(t_data *data)
 	int		x;
 	double	c;
 	int		y;
+	int		wall;
 
-	x = 0;
+	x = data->player_x * 50;
 	y = 0;
-	while (x < 400)
+	m = ((sin(data->player_angle) * 50) - data->player_y) / ((cos(data->player_angle) * 50) - data->player_x);
+    c = (data->player_y - m * data->player_x) * 50;
+	wall = find_wall(data, m, c);
+	(void)wall;
+	//printf("%d\n", wall);
+	while (++x < 400 && x < wall)
 	{
-		m = ((data->cursor_y * 50) - (data->player_y * 50)) / ((data->cursor_x * 50) - (data->player_x * 50));
-		c = (data->player_y * 50) - (m * (data->player_x * 50));
 		y = m * x + c;
-
-		if (y >= 0 && y <= 400)
-		{
-			if (data->cursor_y < data->player_y && y < data->player_y * 50)
-				pixel_put(data, x, y, 0xFF0000);
-			else if (data->cursor_y > data->player_y && y > data->player_y * 50)
-				pixel_put(data, x, y, 0xFF0000);
-		}
-		x++;
+		if (y >= 0 && y <= 400 )
+			pixel_put(data, x, y, 0xFF0000);
 	}
 	return (0);
 }
@@ -214,8 +227,7 @@ void	data_init(t_data *data)
 	data->map = ft_split("11111111n10100001n10100001n10100001n10000001n10000101n10000001n11111111n", 'n');
 	data->player_x = 2.5;
 	data->player_y = 5.5;
-	data->cursor_x = 4;
-	data->cursor_y = 4;
+	data->player_angle = 1.6f;
 }
 
 int	ft_close(t_data *data)
@@ -226,26 +238,44 @@ int	ft_close(t_data *data)
 
 int	key_hook(int keycode, t_data *data)
 {
-	double speed = 0.04;
+	double	speed;
+	double	rotation_speed;
+	double	dx;
+	double	dy;
 
-	if (keycode == 119 && (data->map[(int)(data->player_y - speed - 0.1)][(int)data->player_x] != '1'))
-		data->player_y -= speed;
-	else if (keycode == 97 && (data->map[(int)data->player_y][(int)(data->player_x - speed - 0.1)] != '1'))
-		data->player_x -= speed;
-	else if (keycode == 115 && (data->map[(int)(data->player_y + speed + 0.1)][(int)data->player_x] != '1'))
-		data->player_y += speed;
-	else if (keycode == 100 && (data->map[(int)data->player_y][(int)(data->player_x + speed + 0.1)] != '1'))
-		data->player_x += speed;
+	speed = 0.08f;
+	rotation_speed = 1;
+	dx = cos(data->player_angle);
+	dy = sin(data->player_angle);
 
-	if (keycode == 65362 && (data->map[(int)(data->cursor_y - speed - 0.1)][(int)data->cursor_x] != '1'))
-		data->cursor_y -= speed;
-	else if (keycode == 65361 && (data->map[(int)data->cursor_y][(int)(data->cursor_x - speed - 0.1)] != '1'))
-		data->cursor_x -= speed;
-	else if (keycode == 65364 && (data->map[(int)(data->cursor_y + speed + 0.1)][(int)data->cursor_x] != '1'))
-		data->cursor_y += speed;
-	else if (keycode == 65363 && (data->map[(int)data->cursor_y][(int)(data->cursor_x + speed + 0.1)] != '1'))
-		data->cursor_x += speed;
-
+	if (keycode == KEY_W)
+	{
+		data->player_x -= dx * speed;
+		data->player_y -= dy * speed;
+	}
+	else if (keycode == KEY_S)
+	{
+		data->player_x += dx * speed;
+		data->player_y += dy * speed;
+	}
+	else if (keycode == KEY_A)
+	{
+		dx = cos(data->player_angle + M_PI_2 );
+		dy = sin(data->player_angle + M_PI_2 );
+		data->player_x += dx * speed;
+		data->player_y += dy * speed;
+	}
+	else if (keycode == KEY_D)
+	{
+		dx = cos(data->player_angle - M_PI_2 );
+		dy = sin(data->player_angle - M_PI_2 );
+		data->player_x += dx * speed;
+		data->player_y += dy * speed;
+	}
+	else if (keycode == KEY_Q)
+		data->player_angle -= rotation_speed / 180.f * M_PI;
+	else if (keycode == KEY_E)
+		data->player_angle += rotation_speed / 180.f * M_PI;
 	else if (keycode == 65307)
 		ft_close(data);
 	return (0);
