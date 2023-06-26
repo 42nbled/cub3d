@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 06:59:35 by nbled             #+#    #+#             */
-/*   Updated: 2023/06/25 12:45:25 by nbled            ###   ########.fr       */
+/*   Updated: 2023/06/26 13:57:36 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,47 +100,95 @@ void	print_player(t_data *data)
 
 // ---- RAYCASTING ------------------------
 
-int	find_wall(t_data *data, double m, double c)
-{
-	int	x;
-	int	y;
-
-	x = data->player_x;
-	while (x < 8)
-	{
-		y = m * x + c;
-		if (y >= 0 && y < 400 && data->map[y/50][x] == 1)
-		{
-			printf(RED"%d "END"%d\n", x / 50, y / 50);
-			return (y);
-		}
-		x++;
-	}
-	return (y);
-}
-
-int	print_ray(t_data *data)
+void	calc_droite(t_data *data, t_vec *pos)
 {
 	double	m;
-	int		x;
 	double	c;
-	int		y;
-	int		wall;
-
-	x = data->player_x * 50;
-	y = 0;
-	m = ((sin(data->player_angle) * 50) - data->player_y) / ((cos(data->player_angle) * 50) - data->player_x);
+	
+	m = (data->player_y + sin(data->player_angle) - data->player_y) / (data->player_x + cos(data->player_angle) - data->player_x);
     c = (data->player_y - m * data->player_x) * 50;
-	wall = find_wall(data, m, c);
-	(void)wall;
-	//printf("%d\n", wall);
-	while (++x < 400 && x < wall)
+	pos->y = m * pos->x + c;
+}
+
+void	vec_add(t_vec *a, t_vec b)
+{
+	a->x += b.x;
+	a->y += b.y;
+}
+
+t_vec	get_dist(t_data *data)
+{
+	t_vec	dir;
+	t_vec	pos;
+
+	dir.x = cos(data->player_angle);
+	dir.y = sin(data->player_angle);
+	pos.x = data->player_x * 50;
+	pos.y = data->player_y * 50;
+	while (pos.x >= 0 && pos.x < 400 && pos.y > 0 && pos.y < 400)
 	{
-		y = m * x + c;
-		if (y >= 0 && y <= 400 )
-			pixel_put(data, x, y, 0xFF0000);
+		pixel_put(data, pos.x, pos.y, 0xFF0000);
+		vec_add(&pos, dir);
 	}
-	return (0);
+
+	dir.x = cos(data->player_angle);
+	dir.y = sin(data->player_angle);
+	pos.x = (double)((int)(data->player_x + 1) * 50);
+	calc_droite(data, &pos);
+
+	if (pos.x >= 0 && pos.x < 400 && pos.y > 0 && pos.y < 400)
+	{
+		print_square(data,
+			pos.x - 5,
+			pos.x + 5,
+			pos.y - 5,
+			pos.y + 5,
+			0x00FF00);
+	}
+
+	dir.x = pos.x;
+	dir.y = pos.y;
+	pos.x += 50;
+	calc_droite(data, &pos);
+	dir.x = pos.x - dir.x;
+	dir.y = pos.y - dir.y;
+	while (pos.x >= 0 && pos.x < 400 && pos.y > 0 && pos.y < 400)
+	{
+		//printf(RED"pos[%f][%f]\t"END, pos.x, pos.y);
+		//printf(BLUE"dir[%f][%f]\n"END, dir.x, dir.y);
+		if (data->map[(int)(pos.y /50)][(int)(pos.x /50)] != '1')
+		{
+			printf(GREEN"pos[%d][%d] "END, (int)(pos.x /50), (int)(pos.y /50));
+			print_square(data,
+				pos.x - 5,
+				pos.x + 5,
+				pos.y - 5,
+				pos.y + 5,
+				0x00FF00);
+		}
+		else if (data->map[(int)(pos.y /50)][(int)(pos.x /50)] == '1')
+		{
+			printf(BLUE"pos[%d][%d] "END, (int)(pos.x /50), (int)(pos.y /50));
+			print_square(data,
+				pos.x - 5,
+				pos.x + 5,
+				pos.y - 5,
+				pos.y + 5,
+				0x0000FF);
+		}
+		vec_add(&pos, dir);
+	}
+	printf("\n");
+
+	return (pos);
+}
+
+void	raycasting(t_data *data)
+{
+	t_vec	pos;
+	
+	pos = get_dist(data);
+	(void)pos;
 }
 
 // ----- SPLIT ---------------------------
@@ -213,7 +261,7 @@ int	loop(t_data *data)
 {
 	print_map(data);
 	print_player(data);
-	print_ray(data);
+	raycasting(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 	return (0);
 }
@@ -243,40 +291,40 @@ int	key_hook(int keycode, t_data *data)
 	double	dx;
 	double	dy;
 
-	speed = 0.08f;
-	rotation_speed = 1;
+	speed = 0.08;
+	rotation_speed = 2;
 	dx = cos(data->player_angle);
 	dy = sin(data->player_angle);
 
 	if (keycode == KEY_W)
 	{
+		data->player_x += dx * speed;
+		data->player_y += dy * speed;
+	}
+	if (keycode == KEY_S)
+	{
 		data->player_x -= dx * speed;
 		data->player_y -= dy * speed;
 	}
-	else if (keycode == KEY_S)
-	{
-		data->player_x += dx * speed;
-		data->player_y += dy * speed;
-	}
-	else if (keycode == KEY_A)
-	{
-		dx = cos(data->player_angle + M_PI_2 );
-		dy = sin(data->player_angle + M_PI_2 );
-		data->player_x += dx * speed;
-		data->player_y += dy * speed;
-	}
-	else if (keycode == KEY_D)
+	if (keycode == KEY_A)
 	{
 		dx = cos(data->player_angle - M_PI_2 );
 		dy = sin(data->player_angle - M_PI_2 );
 		data->player_x += dx * speed;
 		data->player_y += dy * speed;
 	}
-	else if (keycode == KEY_Q)
+	if (keycode == KEY_D)
+	{
+		dx = cos(data->player_angle + M_PI_2 );
+		dy = sin(data->player_angle + M_PI_2 );
+		data->player_x += dx * speed;
+		data->player_y += dy * speed;
+	}
+	if (keycode == KEY_Q)
 		data->player_angle -= rotation_speed / 180.f * M_PI;
 	else if (keycode == KEY_E)
 		data->player_angle += rotation_speed / 180.f * M_PI;
-	else if (keycode == 65307)
+	if (keycode == 65307)
 		ft_close(data);
 	return (0);
 }

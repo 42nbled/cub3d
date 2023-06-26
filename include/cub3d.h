@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 07:07:37 by nbled             #+#    #+#             */
-/*   Updated: 2023/06/25 11:53:51 by nbled            ###   ########.fr       */
+/*   Updated: 2023/06/26 10:17:03 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,12 @@
 # include <string.h>
 # include <math.h>
 
-typedef struct	s_data {
+typedef struct s_vec {
+	double	x;
+	double	y;
+}				t_vec;
+
+typedef struct s_data {
 	void	*mlx;
 	void	*win;
 	void	*img;
