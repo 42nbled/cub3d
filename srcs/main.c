@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 06:59:35 by nbled             #+#    #+#             */
-/*   Updated: 2023/06/26 13:57:36 by nbled            ###   ########.fr       */
+/*   Updated: 2023/06/26 16:12:22 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,9 @@ void	calc_droite(t_data *data, t_vec *pos)
 {
 	double	m;
 	double	c;
-	
+
 	m = (data->player_y + sin(data->player_angle) - data->player_y) / (data->player_x + cos(data->player_angle) - data->player_x);
-    c = (data->player_y - m * data->player_x) * 50;
+	c = (data->player_y - m * data->player_x) * 50;
 	pos->y = m * pos->x + c;
 }
 
@@ -116,36 +116,21 @@ void	vec_add(t_vec *a, t_vec b)
 	a->y += b.y;
 }
 
-t_vec	get_dist(t_data *data)
+void	vec_sub(t_vec *a, t_vec b)
 {
-	t_vec	dir;
+	a->x -= b.x;
+	a->y -= b.y;
+}
+
+t_vec	get_dist(t_data *data, t_vec dir)
+{
 	t_vec	pos;
 
-	dir.x = cos(data->player_angle);
-	dir.y = sin(data->player_angle);
-	pos.x = data->player_x * 50;
-	pos.y = data->player_y * 50;
-	while (pos.x >= 0 && pos.x < 400 && pos.y > 0 && pos.y < 400)
-	{
-		pixel_put(data, pos.x, pos.y, 0xFF0000);
-		vec_add(&pos, dir);
-	}
-
-	dir.x = cos(data->player_angle);
-	dir.y = sin(data->player_angle);
 	pos.x = (double)((int)(data->player_x + 1) * 50);
 	calc_droite(data, &pos);
-
 	if (pos.x >= 0 && pos.x < 400 && pos.y > 0 && pos.y < 400)
-	{
-		print_square(data,
-			pos.x - 5,
-			pos.x + 5,
-			pos.y - 5,
-			pos.y + 5,
-			0x00FF00);
-	}
-
+		if (data->map[(int)(pos.y /50)][(int)(pos.x /50)] == '1')
+			return (pos);
 	dir.x = pos.x;
 	dir.y = pos.y;
 	pos.x += 50;
@@ -154,41 +139,78 @@ t_vec	get_dist(t_data *data)
 	dir.y = pos.y - dir.y;
 	while (pos.x >= 0 && pos.x < 400 && pos.y > 0 && pos.y < 400)
 	{
-		//printf(RED"pos[%f][%f]\t"END, pos.x, pos.y);
-		//printf(BLUE"dir[%f][%f]\n"END, dir.x, dir.y);
-		if (data->map[(int)(pos.y /50)][(int)(pos.x /50)] != '1')
-		{
-			printf(GREEN"pos[%d][%d] "END, (int)(pos.x /50), (int)(pos.y /50));
-			print_square(data,
-				pos.x - 5,
-				pos.x + 5,
-				pos.y - 5,
-				pos.y + 5,
-				0x00FF00);
-		}
-		else if (data->map[(int)(pos.y /50)][(int)(pos.x /50)] == '1')
-		{
-			printf(BLUE"pos[%d][%d] "END, (int)(pos.x /50), (int)(pos.y /50));
-			print_square(data,
-				pos.x - 5,
-				pos.x + 5,
-				pos.y - 5,
-				pos.y + 5,
-				0x0000FF);
-		}
+		if (data->map[(int)(pos.y /50)][(int)(pos.x /50)] == '1')
+			return (pos);
 		vec_add(&pos, dir);
 	}
-	printf("\n");
-
 	return (pos);
 }
 
-void	raycasting(t_data *data)
+t_vec	get_dist_negative(t_data *data, t_vec dir)
 {
 	t_vec	pos;
-	
-	pos = get_dist(data);
-	(void)pos;
+
+	pos.x = (double)((int)(data->player_x) * 50);
+	calc_droite(data, &pos);
+	if (pos.x >= 0 && pos.x < 400 && pos.y > 0 && pos.y < 400)
+		if (data->map[(int)(pos.y /50)][(int)(pos.x /50) - 1] == '1')
+			return (pos);
+	dir.x = pos.x;
+	dir.y = pos.y;
+	pos.x -= 50;
+	calc_droite(data, &pos);
+	dir.x = pos.x - dir.x;
+	dir.y = pos.y - dir.y;
+	while (pos.x >= 0 && pos.x < 400 && pos.y > 0 && pos.y < 400)
+	{
+		if (data->map[(int)(pos.y /50) ][(int)(pos.x /50) - 1] == '1')
+			return (pos);
+		vec_add(&pos, dir);
+	}
+	return (pos);
+}
+
+/*
+printf("pos[%f][%f]\t", pos.y / 50, pos.x / 50 - 1);
+		printf("%c\t", data->map[(int)(pos.y /50) - 1][(int)(pos.x /50)]);
+		printf("[%d][%d]\n", (int)(pos.y /50) - 1, (int)(pos.x /50));
+*/
+
+int	raycasting(t_data *data)
+{
+	t_vec	dir;
+	t_vec	pos;
+	t_vec	end;
+
+	dir.x = cos(data->player_angle);
+	dir.y = sin(data->player_angle);
+	if (dir.x > 0)
+	{
+		end = get_dist(data, dir);
+		dir.x = cos(data->player_angle);
+		dir.y = sin(data->player_angle);
+		pos.x = data->player_x * 50;
+		pos.y = data->player_y * 50;
+		while (pos.x >= 0 && pos.x < end.x && pos.y > 0 && pos.y < 400)
+		{
+			pixel_put(data, pos.x, pos.y, 0xFF0000);
+			vec_add(&pos, dir);
+		}
+	}
+	else
+	{
+		end = get_dist_negative(data, dir);
+		dir.x = cos(data->player_angle);
+		dir.y = sin(data->player_angle);
+		pos.x = data->player_x * 50;
+		pos.y = data->player_y * 50;
+		while (pos.x > end.x && pos.x < 400 && pos.y > 0 && pos.y < 400)
+		{
+			pixel_put(data, pos.x, pos.y, 0xFF0000);
+			vec_add(&pos, dir);
+		}
+	}
+	return (0);
 }
 
 // ----- SPLIT ---------------------------
@@ -273,9 +295,9 @@ void	data_init(t_data *data)
 	data->img = mlx_new_image(data->mlx, 400, 400);
 	data->addr = mlx_get_data_addr(data->img, &data->bits_per_pixel, &data->line_length, &data->endian);
 	data->map = ft_split("11111111n10100001n10100001n10100001n10000001n10000101n10000001n11111111n", 'n');
-	data->player_x = 2.5;
+	data->player_x = 6.5;
 	data->player_y = 5.5;
-	data->player_angle = 1.6f;
+	data->player_angle = 3.65f;
 }
 
 int	ft_close(t_data *data)
