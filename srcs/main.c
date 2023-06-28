@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 06:59:35 by nbled             #+#    #+#             */
-/*   Updated: 2023/06/28 09:57:47 by nbled            ###   ########.fr       */
+/*   Updated: 2023/06/28 16:30:32 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	calc_droite_x(t_data *data, t_vec *pos)
 	double	m;
 	double	c;
 
-	m = sin(data->player_angle) / cos(data->player_angle);
+	m = sin(data->ray_angle) / cos(data->ray_angle);
 	c = (data->player_y - m * data->player_x) * 50;
 	pos->y = m * pos->x + c;
 }
@@ -145,7 +145,7 @@ void calc_droite_y(t_data *data, t_vec *pos)
     double m;
     double c;
 
-    m = cos(data->player_angle) / sin(data->player_angle);
+    m = cos(data->ray_angle) / sin(data->ray_angle);
     c = (data->player_x - m * data->player_y) * 50;
     pos->x = m * pos->y + c;
 }
@@ -174,22 +174,46 @@ t_vec get_dist_y(t_data *data, t_vec dir, int signe1, int signe2)
     return (pos);
 }
 
+t_vec is_lower_vec(t_data *data, t_vec *end_x, t_vec *end_y)
+{
+    double dist_x;
+    double dist_y;
+
+    dist_x = sqrt(pow(fabs(end_x->x - data->player_x * 50), 2) + pow(fabs(end_x->y - data->player_y * 50), 2));
+    dist_y = sqrt(pow(fabs(end_y->x - data->player_x * 50), 2) + pow(fabs(end_y->y - data->player_y * 50), 2));
+    if (dist_x < dist_y)
+        return *end_x;
+    return *end_y;
+}
+
 int	raycasting(t_data *data)
 {
 	t_vec	dir;
 	t_vec	pos;
-	t_vec	end;
+	t_vec	end_x;
+	t_vec	end_y;
 
-	dir.x = cos(data->player_angle);
-	dir.y = sin(data->player_angle);
+	dir.x = cos(data->ray_angle);
+	dir.y = sin(data->ray_angle);
+	pos.x = data->player_x * 50;
+	pos.y = data->player_y * 50;
+	if (dir.x > 0)
+		end_x = get_dist_x(data, dir, 1, 0);
+	else
+		end_x = get_dist_x(data, dir, -1, 1);
+	pos.x = data->player_x * 50;
+	pos.y = data->player_y * 50;
+	if (dir.y > 0)
+		end_y = get_dist_y(data, dir, 1, 0);
+	else
+		end_y = get_dist_y(data, dir, -1, 1);
+	end_x = is_lower_vec(data, &end_x, &end_y);
+	
+	pos.x = data->player_x * 50;
+	pos.y = data->player_y * 50;
 	if (dir.x > 0)
 	{
-		end = get_dist_x(data, dir, 1, 0);
-		dir.x = cos(data->player_angle);
-		dir.y = sin(data->player_angle);
-		pos.x = data->player_x * 50;
-		pos.y = data->player_y * 50;
-		while (pos.x >= 0 && pos.x < end.x && pos.y > 0 && pos.y < 400)
+		while (pos.x >= 0 && pos.x < end_x.x && pos.y > 0 && pos.y < 400)
 		{
 			print_square(data, pos.x -1, pos.x + 1, pos.y - 1, pos.y + 1, 0xFF0000);
 			vec_add(&pos, dir);
@@ -197,45 +221,13 @@ int	raycasting(t_data *data)
 	}
 	else
 	{
-		end = get_dist_x(data, dir, -1, 1);
-		dir.x = cos(data->player_angle);
-		dir.y = sin(data->player_angle);
-		pos.x = data->player_x * 50;
-		pos.y = data->player_y * 50;
-		while (pos.x > end.x && pos.x < 400 && pos.y > 0 && pos.y < 400)
+		while (pos.x > end_x.x && pos.x < 400 && pos.y > 0 && pos.y < 400)
 		{
 			print_square(data, pos.x -1, pos.x + 1, pos.y - 1, pos.y + 1, 0xFF0000);
 			vec_add(&pos, dir);
 		}
 	}
-	dir.x = cos(data->player_angle);
-	dir.y = sin(data->player_angle);
-	if (dir.y > 0)
-	{
-		end = get_dist_y(data, dir, 1, 0);
-		dir.x = cos(data->player_angle);
-		dir.y = sin(data->player_angle);
-		pos.x = data->player_x * 50;
-		pos.y = data->player_y * 50;
-		while (pos.x >= 0 && pos.x < 400 && pos.y > 0 && pos.y < end.y)
-		{
-			pixel_put(data, pos.x, pos.y, 0x00FF00);
-			vec_add(&pos, dir);
-		}
-	}
-	else
-	{
-		end = get_dist_y(data, dir, -1, 1);
-		dir.x = cos(data->player_angle);
-		dir.y = sin(data->player_angle);
-		pos.x = data->player_x * 50;
-		pos.y = data->player_y * 50;
-		while (pos.x > 0 && pos.x < 400 && pos.y > end.y && pos.y < 400)
-		{
-			pixel_put(data, pos.x, pos.y, 0x00FF00);
-			vec_add(&pos, dir);
-		}
-	}
+
 	return (0);
 }
 
@@ -305,34 +297,22 @@ char	**ft_split(char const *s, char c)
 
 // ----- CODE ---------------------------
 
-
 int	loop(t_data *data)
 {
-	print_map(data);
-	print_player(data);
-	raycasting(data);
-	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
-	return (0);
-}
-/*
-int	loop(t_data *data)
-{
-	int	i;
+	double	fov;
 
-	i = data->player_angle;
+	fov = 45 * 0.0174533;
 	print_map(data);
-
-	data->player_angle -= 1000;
-	while (data->player_angle < i)
+	data->ray_angle = data->player_angle - fov;
+	while (data->ray_angle <= data->player_angle + fov)
 	{
 		raycasting(data);
-		data->player_angle++;
+		data->ray_angle += 0.0174533;
 	}
-
 	print_player(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 	return (0);
-}*/
+}//*/
 
 void	data_init(t_data *data)
 {
@@ -342,6 +322,7 @@ void	data_init(t_data *data)
 	data->addr = mlx_get_data_addr(data->img, &data->bits_per_pixel, &data->line_length, &data->endian);
 	data->map = ft_split("11111111n10100001n10100001n10100001n10000001n10000101n10000001n11111111n", 'n');
 	//data->map = ft_split("00000000n01111110n01010010n01000010n01001010n01000010n01111110n00000000n", 'n');
+	//data->map = ft_split("11111111n10001001n10111011n10101011n10000001n10101111n10100001n11111111n", 'n');
 	data->player_x = 6.5;
 	data->player_y = 5.5;
 	data->player_angle = 3.65f;
@@ -361,7 +342,7 @@ int	key_hook(int keycode, t_data *data)
 	double	dy;
 
 	speed = 0.08;
-	rotation_speed = 2;
+	rotation_speed = 4;
 	dx = cos(data->player_angle);
 	dy = sin(data->player_angle);
 

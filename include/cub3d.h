@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 07:07:37 by nbled             #+#    #+#             */
-/*   Updated: 2023/06/26 10:17:03 by nbled            ###   ########.fr       */
+/*   Updated: 2023/06/28 16:06:31 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_data {
 	double	player_x;
 	double	player_y;
 	double	player_angle;
+	double	ray_angle;
 	char	**map;
 }				t_data;
 
