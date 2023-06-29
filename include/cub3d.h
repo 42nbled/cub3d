@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 07:07:37 by nbled             #+#    #+#             */
-/*   Updated: 2023/06/28 16:06:31 by nbled            ###   ########.fr       */
+/*   Updated: 2023/06/29 15:36:08 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 # define KEY_D			100
 # define KEY_Q			113
 # define KEY_E			101
+
+# define SCREEN_HEIGHT	800
+# define SCREEN_LENGTH	800
 
 # define RED     "\x1b[31;1m"
 # define GREEN   "\x1b[32;1m"
@@ -56,6 +59,7 @@ typedef struct s_data {
 	double	player_y;
 	double	player_angle;
 	double	ray_angle;
+	double	num_ray;
 	char	**map;
 }				t_data;
 

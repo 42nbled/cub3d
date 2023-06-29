@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 06:59:35 by nbled             #+#    #+#             */
-/*   Updated: 2023/06/28 16:30:32 by nbled            ###   ########.fr       */
+/*   Updated: 2023/06/29 15:39:34 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,26 +41,6 @@ void	print_square(t_data *data, int x_start, int x_end, int y_start, int y_end, 
 	}
 }
 
-void	print_black(t_data *data, int x_start, int x_end, int y_start, int y_end, int color)
-{
-	int	x;
-	int	y;
-
-	y = y_start;
-	x = x_start;
-	while (y <= y_end)
-	{
-		x = x_start;
-		while (x <= x_end)
-		{
-			if (x == x_start || x == x_end || y == y_start || y == y_end)
-				pixel_put(data, x, y, color);
-			x++;
-		}
-		y++;
-	}
-}
-
 void	print_map(t_data *data)
 {
 	int x;
@@ -74,15 +54,9 @@ void	print_map(t_data *data)
 		while (x < 8)
 		{
 			if (data->map[y][x] == '1')
-			{
-				print_square(data, x * 50 + 1, (x + 1) * 50 - 1, y * 50 + 1, (y + 1) * 50 - 1, 0x454545);
-				print_black(data, x * 50, (x + 1) * 50, y * 50, (y + 1) * 50, 0x000000);
-			}
+				print_square(data, x * 10 + 1, (x + 1) * 10 - 1, y * 10 + 1, (y + 1) * 10 - 1, 0x454545);
 			else
-			{
-				print_square(data, x * 50 + 1, (x + 1) * 50 - 1, y * 50 + 1, (y + 1) * 50 - 1, 0x999999);
-				print_black(data, x * 50, (x + 1) * 50, y * 50, (y + 1) * 50, 0x000000);
-			}
+				print_square(data, x * 10 + 1, (x + 1) * 10 - 1, y * 10 + 1, (y + 1) * 10 - 1, 0x999999);
 			x++;
 		}
 		y++;
@@ -92,10 +66,10 @@ void	print_map(t_data *data)
 void	print_player(t_data *data)
 {
 	print_square(data,
-		data->player_x * 50 - 5,
-		data->player_x * 50 + 5,
-		data->player_y * 50 - 5,
-		data->player_y * 50 + 5, 0xFFFF00);
+		data->player_x * 10 - 2,
+		data->player_x * 10 + 2,
+		data->player_y * 10 - 2,
+		data->player_y * 10 + 2, 0xFF0000);
 }
 
 // ---- RAYCASTING ------------------------
@@ -189,33 +163,30 @@ t_vec is_lower_vec(t_data *data, t_vec *end_x, t_vec *end_y)
 int	raycasting(t_data *data)
 {
 	t_vec	dir;
-	t_vec	pos;
+	//t_vec	pos;
 	t_vec	end_x;
 	t_vec	end_y;
 
 	dir.x = cos(data->ray_angle);
 	dir.y = sin(data->ray_angle);
-	pos.x = data->player_x * 50;
-	pos.y = data->player_y * 50;
 	if (dir.x > 0)
 		end_x = get_dist_x(data, dir, 1, 0);
 	else
 		end_x = get_dist_x(data, dir, -1, 1);
-	pos.x = data->player_x * 50;
-	pos.y = data->player_y * 50;
 	if (dir.y > 0)
 		end_y = get_dist_y(data, dir, 1, 0);
 	else
 		end_y = get_dist_y(data, dir, -1, 1);
 	end_x = is_lower_vec(data, &end_x, &end_y);
 	
+	/*
 	pos.x = data->player_x * 50;
 	pos.y = data->player_y * 50;
 	if (dir.x > 0)
 	{
 		while (pos.x >= 0 && pos.x < end_x.x && pos.y > 0 && pos.y < 400)
 		{
-			print_square(data, pos.x -1, pos.x + 1, pos.y - 1, pos.y + 1, 0xFF0000);
+			pixel_put(data, pos.x, pos.y, 0xFF0000);
 			vec_add(&pos, dir);
 		}
 	}
@@ -223,10 +194,38 @@ int	raycasting(t_data *data)
 	{
 		while (pos.x > end_x.x && pos.x < 400 && pos.y > 0 && pos.y < 400)
 		{
-			print_square(data, pos.x -1, pos.x + 1, pos.y - 1, pos.y + 1, 0xFF0000);
+			pixel_put(data, pos.x, pos.y, 0xFF0000);
 			vec_add(&pos, dir);
 		}
+	}*/
+
+	double	len;
+	double	start;
+
+	len = sqrt(pow(fabs(end_x.x - data->player_x * 50), 2) + pow(fabs(end_x.y - data->player_y * 50), 2));
+	len *= cos(data->ray_angle - data->player_angle);
+	len = (SCREEN_HEIGHT / len) * 16;
+	start = (SCREEN_HEIGHT - len) / 2;
+	print_square(data,
+		data->num_ray,
+		data->num_ray,
+		0,
+		start, 0x0000FF);
+	if (start + len < SCREEN_HEIGHT)
+	{
+		if (start + len < SCREEN_HEIGHT && end_x.x == (double)((int)end_x.x))
+			print_square(data, data->num_ray, data->num_ray, start, start + len, 0x44FE31);
+		else
+			print_square(data,data->num_ray,data->num_ray,start,start + len, 0x3EDC2E);
 	}
+	else
+	{
+		if (end_x.x == (double)((int)end_x.x))
+			print_square(data,data->num_ray,data->num_ray,0,SCREEN_LENGTH, 0x44FE31);
+		else
+			print_square(data,data->num_ray,data->num_ray,0,SCREEN_LENGTH, 0x3EDC2E);
+	}
+	print_square(data,data->num_ray,data->num_ray,start + len,SCREEN_LENGTH, 0xDC7633);
 
 	return (0);
 }
@@ -300,15 +299,19 @@ char	**ft_split(char const *s, char c)
 int	loop(t_data *data)
 {
 	double	fov;
+	double	radian;
 
-	fov = 45 * 0.0174533;
-	print_map(data);
+	radian = 0.0174533;
+	fov = 45 * radian;
 	data->ray_angle = data->player_angle - fov;
+	data->num_ray = 0;
 	while (data->ray_angle <= data->player_angle + fov)
 	{
 		raycasting(data);
-		data->ray_angle += 0.0174533;
+		data->ray_angle += radian / 8;
+		data->num_ray ++;
 	}
+	print_map(data);
 	print_player(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 	return (0);
@@ -317,14 +320,15 @@ int	loop(t_data *data)
 void	data_init(t_data *data)
 {
 	data->mlx = mlx_init();
-	data->win = mlx_new_window(data->mlx, 400, 400, "cub3d");
-	data->img = mlx_new_image(data->mlx, 400, 400);
+	data->win = mlx_new_window(data->mlx, SCREEN_HEIGHT, SCREEN_LENGTH, "cub3d");
+	data->img = mlx_new_image(data->mlx, SCREEN_HEIGHT, SCREEN_LENGTH);
 	data->addr = mlx_get_data_addr(data->img, &data->bits_per_pixel, &data->line_length, &data->endian);
 	data->map = ft_split("11111111n10100001n10100001n10100001n10000001n10000101n10000001n11111111n", 'n');
 	//data->map = ft_split("00000000n01111110n01010010n01000010n01001010n01000010n01111110n00000000n", 'n');
-	//data->map = ft_split("11111111n10001001n10111011n10101011n10000001n10101111n10100001n11111111n", 'n');
-	data->player_x = 6.5;
-	data->player_y = 5.5;
+	data->map = ft_split("11111111n10001001n10111011n10101011n10000001n10101111n10100001n11111111n", 'n');
+	data->map = ft_split("11111111n10110001n10110111n10000111n11100001n11101101n10001101n11111111n", 'n');
+	data->player_x = 5.5;
+	data->player_y = 4.5;
 	data->player_angle = 3.65f;
 }
 
