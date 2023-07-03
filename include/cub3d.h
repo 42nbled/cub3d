@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 07:07:37 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/03 11:57:19 by nbled            ###   ########.fr       */
+/*   Updated: 2023/07/03 17:17:50 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # define KEY_Q			113
 # define KEY_E			101
 
-# define SCREEN_HEIGHT	900
-# define SCREEN_LENGTH	800
+# define SCREEN_HEIGHT	600
+# define SCREEN_WIDTH	800
 
 # define RED     "\x1b[31;1m"
 # define GREEN   "\x1b[32;1m"
