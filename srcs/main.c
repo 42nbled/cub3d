@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 06:59:35 by nbled             #+#    #+#             */
-/*   Updated: 2023/06/29 15:39:34 by nbled            ###   ########.fr       */
+/*   Updated: 2023/07/03 12:13:10 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,28 +204,27 @@ int	raycasting(t_data *data)
 
 	len = sqrt(pow(fabs(end_x.x - data->player_x * 50), 2) + pow(fabs(end_x.y - data->player_y * 50), 2));
 	len *= cos(data->ray_angle - data->player_angle);
-	len = (SCREEN_HEIGHT / len) * 16;
-	start = (SCREEN_HEIGHT - len) / 2;
-	print_square(data,
-		data->num_ray,
-		data->num_ray,
-		0,
-		start, 0x0000FF);
-	if (start + len < SCREEN_HEIGHT)
+	len = (SCREEN_LENGTH / len) * 16;
+	start = (SCREEN_LENGTH - len) / 2;
+	//printf("start = "RED"%f\t"END"len = "BLUE"%f\n"END, start, len);
+	if (start + len < SCREEN_LENGTH)
 	{
-		if (start + len < SCREEN_HEIGHT && end_x.x == (double)((int)end_x.x))
+		//printf(YELLOW"I WAS HERE\n"END);
+		print_square(data, data->num_ray, data->num_ray, 0, start, 0x0000FF);
+		if (start + len < SCREEN_LENGTH && end_x.x == (double)((int)end_x.x))
 			print_square(data, data->num_ray, data->num_ray, start, start + len, 0x44FE31);
 		else
-			print_square(data,data->num_ray,data->num_ray,start,start + len, 0x3EDC2E);
+			print_square(data, data->num_ray, data->num_ray, start, start + len, 0x3EDC2E);
+		print_square(data,data->num_ray,data->num_ray,start + len,SCREEN_LENGTH, 0xDC7633);
 	}
 	else
 	{
+		//printf(GREEN"I WAS HERE\n"END);
 		if (end_x.x == (double)((int)end_x.x))
 			print_square(data,data->num_ray,data->num_ray,0,SCREEN_LENGTH, 0x44FE31);
 		else
 			print_square(data,data->num_ray,data->num_ray,0,SCREEN_LENGTH, 0x3EDC2E);
 	}
-	print_square(data,data->num_ray,data->num_ray,start + len,SCREEN_LENGTH, 0xDC7633);
 
 	return (0);
 }
@@ -305,7 +304,7 @@ int	loop(t_data *data)
 	fov = 45 * radian;
 	data->ray_angle = data->player_angle - fov;
 	data->num_ray = 0;
-	while (data->ray_angle <= data->player_angle + fov)
+	while (data->num_ray < SCREEN_HEIGHT)
 	{
 		raycasting(data);
 		data->ray_angle += radian / 8;
@@ -325,11 +324,11 @@ void	data_init(t_data *data)
 	data->addr = mlx_get_data_addr(data->img, &data->bits_per_pixel, &data->line_length, &data->endian);
 	data->map = ft_split("11111111n10100001n10100001n10100001n10000001n10000101n10000001n11111111n", 'n');
 	//data->map = ft_split("00000000n01111110n01010010n01000010n01001010n01000010n01111110n00000000n", 'n');
-	data->map = ft_split("11111111n10001001n10111011n10101011n10000001n10101111n10100001n11111111n", 'n');
-	data->map = ft_split("11111111n10110001n10110111n10000111n11100001n11101101n10001101n11111111n", 'n');
+	//data->map = ft_split("11111111n10001001n10111011n10101011n10000001n10101111n10100001n11111111n", 'n');
+	//data->map = ft_split("11111111n10110001n10110111n10000111n11100001n11101101n10001101n11111111n", 'n');
 	data->player_x = 5.5;
 	data->player_y = 4.5;
-	data->player_angle = 3.65f;
+	data->player_angle = 0.0f;
 }
 
 int	ft_close(t_data *data)
