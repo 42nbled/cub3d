@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 06:59:35 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/04 21:10:31 by nbled            ###   ########.fr       */
+/*   Updated: 2023/07/04 23:00:24 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,14 @@ void	pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-void	print_square(t_data *data, int x_start, int x_end, int y_start, int y_end, int color)
+int	print_square(t_data *data, int x_start, int x_end, int y_start, int y_end, int color)
 {
 	int	x;
 	int	y;
 
 	y = y_start;
 	x = x_start;
+	//return (0);
 	while (y <= y_end)
 	{
 		x = x_start;
@@ -39,6 +40,7 @@ void	print_square(t_data *data, int x_start, int x_end, int y_start, int y_end, 
 		}
 		y++;
 	}
+	return (0);
 }
 
 void	print_map(t_data *data)
@@ -127,18 +129,19 @@ void calc_droite_y(t_data *data, t_vec *pos)
 t_vec get_dist_y(t_data *data, t_vec dir, int signe1, int signe2)
 {
 	t_vec	pos;
+	t_vec	tmp;
 
     pos.y = (double)((int)(data->player_y + 1 - signe2) * 50);
 	calc_droite_y(data, &pos);
 	if (pos.x >= 0 && pos.x < 400 && pos.y > 0 && pos.y < 400)
 		if (data->map[(int)(pos.y / 50) - signe2][(int)(pos.x / 50)] == '1')
 			return (pos);
-    dir.x = pos.x;
-    dir.y = pos.y;
+    tmp.x = pos.x;
+    tmp.y = pos.y;
     pos.y += 50 * signe1;
     calc_droite_y(data, &pos);
-    dir.x = pos.x - dir.x;
-    dir.y = pos.y - dir.y;
+    dir.x = pos.x - tmp.x;
+    dir.y = pos.y - tmp.y;
     while (pos.x >= 0 && pos.x < 400 && pos.y > 0 && pos.y < 400)
     {
         if (data->map[(int)(pos.y / 50) - signe2][(int)(pos.x / 50)] == '1')
@@ -163,7 +166,7 @@ t_vec is_lower_vec(t_data *data, t_vec *end_x, t_vec *end_y)
 int	raycasting(t_data *data)
 {
 	t_vec	dir;
-	t_vec	pos;
+	//t_vec	pos;
 	t_vec	end_x;
 	t_vec	end_y;
 
@@ -179,7 +182,7 @@ int	raycasting(t_data *data)
 		end_y = get_dist_y(data, dir, -1, 1);
 	end_x = is_lower_vec(data, &end_x, &end_y);
 	
-	
+	/*
 	pos.x = data->player_x * 50;
 	pos.y = data->player_y * 50;
 	if (dir.x > 0)
@@ -197,14 +200,13 @@ int	raycasting(t_data *data)
 			pixel_put(data, pos.x, pos.y, 0xFF0000);
 			vec_add(&pos, dir);
 		}
-	}
+	}*/
 
-	/*
 	double	len;
 	double	start;
 
 	len = sqrt(pow(fabs(end_x.x - data->player_x * 50), 2) + pow(fabs(end_x.y - data->player_y * 50), 2));
-	//len /= cos(data->ray_angle - data->player_angle);
+	len *= cos(data->ray_angle - data->player_angle);
 	len = (SCREEN_HEIGHT / len) * 16;
 	start = (SCREEN_HEIGHT - len) / 2;
 	if (start + len < SCREEN_HEIGHT)
@@ -222,8 +224,8 @@ int	raycasting(t_data *data)
 			print_square(data,data->num_ray,data->num_ray,0,SCREEN_HEIGHT, 0x44FE31);
 		else
 			print_square(data,data->num_ray,data->num_ray,0,SCREEN_HEIGHT, 0x3EDC2E);
-	}*/
-
+	}
+	//(void)start;
 	return (0);
 }
 
@@ -310,11 +312,11 @@ void	get_angle(t_data *data)
 	data->ray_angle = atan2(focal.y - data->player_y, focal.x - data->player_x);	// converti en angle
 	//data->ray_angle *= (180.0 / M_PI);
 	//printf ("%f\t%f\n", range.x, range.y);
-	print_square(data,
+	/*print_square(data,
 		focal.x * 50 - 2,
 		focal.x * 50 + 2,
 		focal.y * 50 - 2,
-		focal.y * 50 + 2, 0x0000FF);
+		focal.y * 50 + 2, 0x0000FF);*/
 }
 
 int	loop(t_data *data)
@@ -326,7 +328,7 @@ int	loop(t_data *data)
 	fov = 45 * radian;
 	data->ray_angle = data->player_angle - fov;
 	data->num_ray = 0;
-	print_map(data);
+	//print_map(data);
 	while (data->num_ray < SCREEN_WIDTH)
 	{
 		get_angle(data);
@@ -334,7 +336,7 @@ int	loop(t_data *data)
 		data->num_ray ++;
 	}
 	//print_map(data);
-	print_player(data);
+	//print_player(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 	return (0);
 }
