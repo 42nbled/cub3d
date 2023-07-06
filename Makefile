@@ -3,7 +3,9 @@ NAME = cub3d
 SRC_DIR = srcs
 OBJ_DIR = objs
 
-SRCS = $(addprefix $(SRC_DIR)/, main.c )
+SRCS = $(addprefix $(SRC_DIR)/, main.c \
+		print.c \
+		utils/ft_split.c)
 
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 

@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 07:07:37 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/04 23:01:21 by nbled            ###   ########.fr       */
+/*   Updated: 2023/07/06 17:43:47 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,23 @@ typedef struct s_vec {
 	double	y;
 }				t_vec;
 
+enum e_keys
+{
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT,
+	STRAF_L,
+	STRAF_R,
+};
+
+
 typedef struct s_data {
 	void	*mlx;
 	void	*win;
 	void	*img;
 	char	*addr;
+	int		keys[6];
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
@@ -62,5 +74,12 @@ typedef struct s_data {
 	double	num_ray;
 	char	**map;
 }				t_data;
+
+void	pixel_put(t_data *data, int x, int y, int color);
+int		print_square(t_data *data, int x_start, int x_end, int y_start, int y_end, int color);
+void	print_map(t_data *data);
+void	print_player(t_data *data);
+
+char	**ft_split(char const *s, char c);
 
 #endif
