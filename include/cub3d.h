@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 07:07:37 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/06 17:43:47 by nbled            ###   ########.fr       */
+/*   Updated: 2023/07/06 20:25:34 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # define KEY_Q			113
 # define KEY_E			101
 
-# define SCREEN_HEIGHT	600
-# define SCREEN_WIDTH	800
+# define SCREEN_HEIGHT	800
+# define SCREEN_WIDTH	1000
 
 # define RED     "\x1b[31;1m"
 # define GREEN   "\x1b[32;1m"
@@ -56,7 +56,6 @@ enum e_keys
 	STRAF_R,
 };
 
-
 typedef struct s_data {
 	void	*mlx;
 	void	*win;
@@ -70,6 +69,7 @@ typedef struct s_data {
 	double	player_x;
 	double	player_y;
 	double	player_angle;
+	t_vec	player_movement;
 	double	ray_angle;
 	double	num_ray;
 	char	**map;

@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 06:59:35 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/06 17:47:21 by nbled            ###   ########.fr       */
+/*   Updated: 2023/07/06 20:11:39 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,6 @@ int	print_screen(t_data *data, t_vec *ray)
 	start = (SCREEN_HEIGHT - len) / 2;
 	if (len <= SCREEN_HEIGHT)
 	{
-		return (0);
 		print_square(data, data->num_ray, data->num_ray, 0, start, 0x17202A);
 		if (0x17202A + len < 1515766)
 		{
@@ -167,7 +166,6 @@ int	print_screen(t_data *data, t_vec *ray)
 	else
 	{
 		
-		return (0);
 		if (ray->x == (double)((int)ray->x))
 			print_square(data,data->num_ray,data->num_ray,0,SCREEN_HEIGHT, 1515766 );
 		else
@@ -201,8 +199,8 @@ void	player_movement(t_data *data)
 	double	dx;
 	double	dy;
 
-	speed = 0.08;
-	rotation_speed = 4;
+	speed = 0.02;
+	rotation_speed = 1;
 	dx = cos(data->player_angle);
 	dy = sin(data->player_angle);
 
@@ -265,6 +263,8 @@ void	data_init(t_data *data)
 	//data->map = ft_split("00000000n01111110n01010010n01000010n01001010n01000010n01111110n00000000n", 'n');
 	//data->map = ft_split("11111111n10001001n10111011n10101011n10000001n10101111n10100001n11111111n", 'n');
 	//data->map = ft_split("11111111n10110001n10110111n10000111n11100001n11101101n10001101n11111111n", 'n');
+	for (int i = 0; i < 6; i++)
+		data->keys[i] = 0;
 	data->player_x = 5.5;
 	data->player_y = 4.5;
 	data->player_angle = 0.0f;
@@ -315,8 +315,8 @@ int	main(void)
 	t_data	data;
 
 	data_init(&data);
-	//mlx_hook(data.win, KeyRelease, KeyReleaseMask, handle_release, &data);
-	//mlx_hook(data.win, KeyPress, KeyPressMask, handle_press, &data);
+	mlx_hook(data.win, KeyRelease, KeyReleaseMask, handle_release, &data);
+	mlx_hook(data.win, KeyPress, KeyPressMask, handle_press, &data);
 	mlx_hook(data.win, 17, 0, ft_close, &data);
 	mlx_loop_hook(data.mlx, loop, &data);
 	mlx_loop(data.mlx);
