@@ -6,11 +6,11 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 16:51:17 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/06 16:51:33 by nbled            ###   ########.fr       */
+/*   Updated: 2023/07/06 21:50:12 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// ---- RAYCASTING ------------------------
+#include <cub3d.h>
 
 void	vec_add(t_vec *a, t_vec b)
 {
@@ -63,3 +63,26 @@ void calc_droite_y(t_data *data, t_vec *pos)
 }
 
 t_vec get_dist_y(t_data *data, t_vec dir, int signe1, int signe2)
+{
+	t_vec	pos;
+	t_vec	tmp;
+
+    pos.y = (double)((int)(data->player_y + 1 - signe2) * 50);
+	calc_droite_y(data, &pos);
+	if (pos.x >= 0 && pos.x < 400 && pos.y > 0 && pos.y < 400)
+		if (data->map[(int)(pos.y / 50) - signe2][(int)(pos.x / 50)] == '1')
+			return (pos);
+    tmp.x = pos.x;
+    tmp.y = pos.y;
+    pos.y += 50 * signe1;
+    calc_droite_y(data, &pos);
+    dir.x = pos.x - tmp.x;
+    dir.y = pos.y - tmp.y;
+    while (pos.x >= 0 && pos.x < 400 && pos.y > 0 && pos.y < 400)
+    {
+        if (data->map[(int)(pos.y / 50) - signe2][(int)(pos.x / 50)] == '1')
+            return (pos);
+        vec_add(&pos, dir);
+    }
+    return (pos);
+}

@@ -6,12 +6,11 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 23:58:10 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/05 23:58:48 by nbled            ###   ########.fr       */
+/*   Updated: 2023/07/07 17:51:24 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
-
 
 int	ft_count_words(const char *s, char c)
 {

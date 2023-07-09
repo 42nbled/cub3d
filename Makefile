@@ -5,6 +5,13 @@ OBJ_DIR = objs
 
 SRCS = $(addprefix $(SRC_DIR)/, main.c \
 		print.c \
+		get_dist.c \
+		raycasting.c \
+		print_screen.c \
+		loop.c \
+		data_init.c \
+		ft_close.c \
+		hook.c \
 		utils/ft_split.c)
 
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))

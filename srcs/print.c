@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 00:00:46 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/06 17:48:03 by nbled            ###   ########.fr       */
+/*   Updated: 2023/07/07 18:09:37 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,31 +41,38 @@ int	print_square(t_data *data, int x_start, int x_end, int y_start, int y_end, i
 
 void	print_map(t_data *data)
 {
-	int x;
-	int	y;
+	int		screen_x;
+	int		screen_y;
+	double	pos_x;
+	double	pos_y;
 
-	x = 0;
-	y = 0;
-	while (y < 8)
+	screen_y = 0;
+	pos_y = -5;
+	while (screen_y < 100)
 	{
-		x = 0;
-		while (x < 8)
+		screen_x = 0;
+		pos_x = -5;
+		while (screen_x < 100)
 		{
-			if (data->map[y][x] == '1')
-				print_square(data, x * 50 + 1, (x + 1) * 50 - 1, y * 50 + 1, (y + 1) * 50 - 1, 0x454545);
-			else
-				print_square(data, x * 50 + 1, (x + 1) * 50 - 1, y * 50 + 1, (y + 1) * 50 - 1, 0x999999);
-			x++;
+				if (screen_y == 0 || screen_x == 0 || screen_y == 99 || screen_x == 99)
+					pixel_put(data, screen_x + 25, screen_y + 25, 0xFFFFFF);
+				else if ((data->player_x + pos_x) >= 0 && (data->player_y + pos_y) >= 0
+						&& (int)(data->player_x + pos_x) < 8 && (int)(data->player_y + pos_y) < 8
+						&& data->map[(int)(data->player_y + pos_y)][(int)(data->player_x + pos_x)] == '1')
+					pixel_put(data, screen_x + 25, screen_y + 25, 0x999999);
+			pos_x += 0.1;	
+			screen_x++;
 		}
-		y++;
+		pos_y += 0.1;
+		screen_y++;
 	}
 }
 
 void	print_player(t_data *data)
 {
 	print_square(data,
-		data->player_x * 50 - 2,
-		data->player_x * 50 + 2,
-		data->player_y * 50 - 2,
-		data->player_y * 50 + 2, 0xFFFF00);
+		75 - 2,
+		75 + 2,
+		75 - 2,
+		75 + 2, 0xFF0000);
 }

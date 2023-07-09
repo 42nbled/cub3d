@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 07:07:37 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/06 20:25:34 by nbled            ###   ########.fr       */
+/*   Updated: 2023/07/09 00:42:38 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # define KEY_D			100
 # define KEY_Q			113
 # define KEY_E			101
+# define KEY_M			109
 
 # define SCREEN_HEIGHT	800
 # define SCREEN_WIDTH	1000
@@ -61,7 +62,6 @@ typedef struct s_data {
 	void	*win;
 	void	*img;
 	char	*addr;
-	int		keys[6];
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
@@ -69,11 +69,33 @@ typedef struct s_data {
 	double	player_x;
 	double	player_y;
 	double	player_angle;
-	t_vec	player_movement;
 	double	ray_angle;
 	double	num_ray;
 	char	**map;
+
+	int		keys[6];
+	int		mouse;
+	int		minimap;
 }				t_data;
+
+int handle_press(int keycode, t_data *data);
+int handle_release(int keycode, t_data *data);
+
+int	ft_close(t_data *data);
+
+void	data_init(t_data *data);
+
+void	get_angle(t_data *data);
+void	player_movement(t_data *data);
+int	loop(t_data *data);
+
+int	print_screen(t_data *data, t_vec *ray);
+
+t_vec	raycasting(t_data *data);
+
+void	vec_add(t_vec *a, t_vec b);
+t_vec	get_dist_x(t_data *data, t_vec dir, int signe1, int signe2);
+t_vec get_dist_y(t_data *data, t_vec dir, int signe1, int signe2);
 
 void	pixel_put(t_data *data, int x, int y, int color);
 int		print_square(t_data *data, int x_start, int x_end, int y_start, int y_end, int color);
