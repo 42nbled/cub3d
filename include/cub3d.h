@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 07:07:37 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/09 00:42:38 by nbled            ###   ########.fr       */
+/*   Updated: 2023/07/10 06:07:42 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,15 @@ typedef struct s_vec {
 	double	y;
 }				t_vec;
 
+typedef struct s_texture {
+	void	*texture;
+	int		x;
+	int		y;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}				t_texture;
+
 enum e_keys
 {
 	UP,
@@ -76,6 +85,11 @@ typedef struct s_data {
 	int		keys[6];
 	int		mouse;
 	int		minimap;
+
+	t_texture	*north_texture;
+	t_texture	*south_texture;
+	t_texture	*est_texture;
+	t_texture	*west_texture;
 }				t_data;
 
 int handle_press(int keycode, t_data *data);

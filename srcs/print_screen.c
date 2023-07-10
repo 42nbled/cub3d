@@ -6,25 +6,137 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 21:56:26 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/09 04:37:37 by nbled            ###   ########.fr       */
+/*   Updated: 2023/07/10 06:30:40 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-int	get_sprite(t_data *data, t_vec *ray)
+void print_texture_north(t_data *data, t_vec *ray, double len, double start)
+{
+	double size;
+    unsigned int *image_data;
+    unsigned int *pixel;  // Pointer to the first pixel of the image
+	int	i;
+	double	column;
+	
+    size = len / data->north_texture->x;
+    image_data = (unsigned int *)mlx_get_data_addr(data->north_texture->texture,
+			&(data->north_texture->bits_per_pixel),
+			&(data->north_texture->line_length),
+			&(data->north_texture->endian));
+			
+	column = (ray->x / 50 -(double)(int)(ray->x /50)) / (1.0f / data->north_texture->y);
+    pixel = image_data;
+	pixel += (unsigned int)column;
+	(void)ray;
+	i = 0;
+    while (i < data->north_texture->x)
+    {
+        unsigned int color = *pixel;
+        print_square(data, data->num_ray, data->num_ray, start + size * i, start + size * (i + 1), color);
+        pixel+=data->north_texture->y;
+		i ++;
+    }
+}
+
+void print_texture_south(t_data *data, t_vec *ray, double len, double start)
+{
+	double size;
+    unsigned int *image_data;
+    unsigned int *pixel;  // Pointer to the first pixel of the image
+	int	i;
+	double	column;
+	
+    size = len / data->south_texture->x;
+    image_data = (unsigned int *)mlx_get_data_addr(data->south_texture->texture,
+			&(data->south_texture->bits_per_pixel),
+			&(data->south_texture->line_length),
+			&(data->south_texture->endian));
+			
+	column = (ray->x / 50 -(double)(int)(ray->x /50)) / (1.0f / data->south_texture->y);
+    pixel = image_data;
+	pixel += data->south_texture->x - 1 - (unsigned int)column;
+	(void)ray;
+	i = 0;
+    while (i < data->south_texture->x)
+    {
+        unsigned int color = *pixel;
+        print_square(data, data->num_ray, data->num_ray, start + size * i, start + size * (i + 1), color);
+        pixel+=data->south_texture->y;
+		i ++;
+    }
+}
+
+void print_texture_west(t_data *data, t_vec *ray, double len, double start)
+{
+	double size;
+    unsigned int *image_data;
+    unsigned int *pixel;  // Pointer to the first pixel of the image
+	int	i;
+	double	column;
+	
+    size = len / data->west_texture->x;
+    image_data = (unsigned int *)mlx_get_data_addr(data->west_texture->texture,
+			&(data->west_texture->bits_per_pixel),
+			&(data->west_texture->line_length),
+			&(data->west_texture->endian));
+			
+	column = (ray->y / 50 -(double)(int)(ray->y /50)) / (1.0f / data->west_texture->y);
+    pixel = image_data;
+	pixel += data->west_texture->x - 1 - (unsigned int)column;
+	(void)ray;
+	i = 0;
+    while (i < data->west_texture->x)
+    {
+        unsigned int color = *pixel;
+        print_square(data, data->num_ray, data->num_ray, start + size * i, start + size * (i + 1), color);
+        pixel+=data->west_texture->y;
+		i ++;
+    }
+}
+
+void print_texture_est(t_data *data, t_vec *ray, double len, double start)
+{
+	double size;
+    unsigned int *image_data;
+    unsigned int *pixel;  // Pointer to the first pixel of the image
+	int	i;
+	double	column;
+	
+    size = len / data->est_texture->x;
+    image_data = (unsigned int *)mlx_get_data_addr(data->est_texture->texture,
+			&(data->est_texture->bits_per_pixel),
+			&(data->est_texture->line_length),
+			&(data->est_texture->endian));
+			
+	column = (ray->y / 50 -(double)(int)(ray->y /50)) / (1.0f / data->est_texture->y);
+    pixel = image_data;
+	pixel += (unsigned int)column;
+	(void)ray;
+	i = 0;
+    while (i < data->est_texture->x)
+    {
+        unsigned int color = *pixel;
+        print_square(data, data->num_ray, data->num_ray, start + size * i, start + size * (i + 1), color);
+        pixel+=data->est_texture->y;
+		i ++;
+    }
+}
+
+int	get_sprite(t_data *data, t_vec *ray, double len, double start)
 {
 	if ((double)((int)(ray->x)) != ray->x && data->ray_angle > 0)												// SOUTH
-		print_square(data, data->num_ray, data->num_ray, 5, 5, 0xFF0000);
+		print_texture_south(data, ray, len, start);
 	if ((double)((int)(ray->x)) != ray->x && data->ray_angle < 0)												// NORTH
-		print_square(data, data->num_ray, data->num_ray, 5, 5, 0x00FF00);
-	if ((double)((int)(ray->y)) != ray->y && (data->ray_angle > M_PI / 2 || data->ray_angle < M_PI / 2 * -1))	// EST
-		print_square(data, data->num_ray, data->num_ray, 5, 5, 0x00FFFF);
-	if ((double)((int)(ray->y)) != ray->y && (data->ray_angle < M_PI / 2 && data->ray_angle > M_PI / 2 * -1))	// WEST
-		print_square(data, data->num_ray, data->num_ray, 5, 5, 0xFFFF00);
+		print_texture_north(data, ray, len, start);
+	if ((double)((int)(ray->y)) != ray->y && (data->ray_angle > M_PI / 2 || data->ray_angle < M_PI / 2 * -1))	// WEST
+		print_texture_west(data, ray, len, start);
+	if ((double)((int)(ray->y)) != ray->y && (data->ray_angle < M_PI / 2 && data->ray_angle > M_PI / 2 * -1))	// EST
+		print_texture_est(data, ray, len, start);
 		
-	if (data->num_ray == SCREEN_WIDTH / 2)
-		printf("%f\t%f\n",ray->x / 50-(double)(int)(ray->x /50),ray->y / 50 - (double)(int)(ray->y /50));
+	//if (data->num_ray == SCREEN_WIDTH / 2)
+		//printf("%f\t%f\n",ray->x / 50-(double)(int)(ray->x /50),ray->y / 50 - (double)(int)(ray->y /50));
 	return (0);
 }
 
@@ -40,22 +152,40 @@ int	print_screen(t_data *data, t_vec *ray)
 	if (len <= SCREEN_HEIGHT)
 	{
 		print_square(data, data->num_ray, data->num_ray, 0, start, 0x17202A);
-		if (0x17202A + len < 1515766)
-			print_square(data, data->num_ray, data->num_ray, start, start + len, 0x17202A + len);
-		else
-			print_square(data, data->num_ray, data->num_ray, start, start + len, 1515766);
+		get_sprite(data, ray, len, start);
 		print_square(data,data->num_ray,data->num_ray,start + len,SCREEN_HEIGHT, 0x17202A);
 	}
 	else
 	{
-		
-		if (ray->x == (double)((int)ray->x))
-			print_square(data,data->num_ray,data->num_ray,0,SCREEN_HEIGHT, 1515766 );
-		else
-			print_square(data,data->num_ray,data->num_ray,0,SCREEN_HEIGHT, 1515766);
+		//print_square(data,data->num_ray,data->num_ray,0,SCREEN_HEIGHT, 1111166);
+		if ((double)((int)(ray->x)) != ray->x)
+		{
+			if (ray->x / 50 -(double)(int)(ray->x /50 ) < 0.5)
+			{
+				print_square(data, data->num_ray, data->num_ray, 0, SCREEN_HEIGHT / 2, 0x000000);
+				print_square(data, data->num_ray, data->num_ray, SCREEN_HEIGHT / 2, SCREEN_HEIGHT, 0xFF00FF);
+			}
+			else
+			{
+				print_square(data, data->num_ray, data->num_ray, 0, SCREEN_HEIGHT / 2, 0xFF00FF);
+				print_square(data, data->num_ray, data->num_ray, SCREEN_HEIGHT / 2, SCREEN_HEIGHT, 0x000000);
+			}
+		}
+		else if ((double)((int)(ray->y)) != ray->y )
+		{
+			if (ray->y / 50 -(double)(int)(ray->y /50 ) < 0.5)
+			{
+				print_square(data, data->num_ray, data->num_ray, 0, SCREEN_HEIGHT / 2, 0x000000);
+				print_square(data, data->num_ray, data->num_ray, SCREEN_HEIGHT / 2, SCREEN_HEIGHT, 0xFF00FF);
+			}
+			else
+			{
+				print_square(data, data->num_ray, data->num_ray, 0, SCREEN_HEIGHT / 2, 0xFF00FF);
+				print_square(data, data->num_ray, data->num_ray, SCREEN_HEIGHT / 2, SCREEN_HEIGHT, 0x000000);
+			}
+		}
 	}
-	if (data->num_ray == SCREEN_WIDTH / 2)
-		print_square(data,data->num_ray,data->num_ray,0,SCREEN_HEIGHT, 0x000000);
-	get_sprite(data, ray);
+	//if (data->num_ray == SCREEN_WIDTH / 2)
+		//print_square(data,data->num_ray,data->num_ray,0,SCREEN_HEIGHT, 0x000000);
 	return (0);
 }
