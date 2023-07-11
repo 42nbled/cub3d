@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 21:56:26 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/10 06:30:40 by nbled            ###   ########.fr       */
+/*   Updated: 2023/07/11 05:18:15 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,19 @@ void print_texture_north(t_data *data, t_vec *ray, double len, double start)
 	pixel += (unsigned int)column;
 	(void)ray;
 	i = 0;
-    while (i < data->north_texture->x)
+
+	if (start + size * i < 0)
+	{
+		while (start + size * i < 0)
+		{
+			pixel+=data->north_texture->y;
+			i ++;
+		}
+		pixel-=data->north_texture->y;
+		i --;
+	}
+
+    while (i < data->north_texture->x && start + size * i < SCREEN_HEIGHT)
     {
         unsigned int color = *pixel;
         print_square(data, data->num_ray, data->num_ray, start + size * i, start + size * (i + 1), color);
@@ -59,7 +71,19 @@ void print_texture_south(t_data *data, t_vec *ray, double len, double start)
 	pixel += data->south_texture->x - 1 - (unsigned int)column;
 	(void)ray;
 	i = 0;
-    while (i < data->south_texture->x)
+	
+	if (start + size * i < 0)
+	{
+		while (start + size * i < 0)
+		{
+			pixel+=data->south_texture->y;
+			i ++;
+		}
+		pixel-=data->south_texture->y;
+		i --;
+	}
+
+    while (i < data->south_texture->x && start + size * i < SCREEN_HEIGHT)
     {
         unsigned int color = *pixel;
         print_square(data, data->num_ray, data->num_ray, start + size * i, start + size * (i + 1), color);
@@ -87,7 +111,19 @@ void print_texture_west(t_data *data, t_vec *ray, double len, double start)
 	pixel += data->west_texture->x - 1 - (unsigned int)column;
 	(void)ray;
 	i = 0;
-    while (i < data->west_texture->x)
+	
+	if (start + size * i < 0)
+	{
+		while (start + size * i < 0)
+		{
+			pixel+=data->west_texture->y;
+			i ++;
+		}
+		pixel-=data->west_texture->y;
+		i --;
+	}
+
+    while (i < data->west_texture->x && start + size * i < SCREEN_HEIGHT)
     {
         unsigned int color = *pixel;
         print_square(data, data->num_ray, data->num_ray, start + size * i, start + size * (i + 1), color);
@@ -115,7 +151,19 @@ void print_texture_est(t_data *data, t_vec *ray, double len, double start)
 	pixel += (unsigned int)column;
 	(void)ray;
 	i = 0;
-    while (i < data->est_texture->x)
+		
+	if (start + size * i < 0)
+	{
+		while (start + size * i < 0)
+		{
+			pixel+=data->est_texture->y;
+			i ++;
+		}
+		pixel-=data->est_texture->y;
+		i --;
+	}
+
+    while (i < data->est_texture->x && start + size * i < SCREEN_HEIGHT)
     {
         unsigned int color = *pixel;
         print_square(data, data->num_ray, data->num_ray, start + size * i, start + size * (i + 1), color);
@@ -134,9 +182,6 @@ int	get_sprite(t_data *data, t_vec *ray, double len, double start)
 		print_texture_west(data, ray, len, start);
 	if ((double)((int)(ray->y)) != ray->y && (data->ray_angle < M_PI / 2 && data->ray_angle > M_PI / 2 * -1))	// EST
 		print_texture_est(data, ray, len, start);
-		
-	//if (data->num_ray == SCREEN_WIDTH / 2)
-		//printf("%f\t%f\n",ray->x / 50-(double)(int)(ray->x /50),ray->y / 50 - (double)(int)(ray->y /50));
 	return (0);
 }
 
@@ -157,35 +202,9 @@ int	print_screen(t_data *data, t_vec *ray)
 	}
 	else
 	{
-		//print_square(data,data->num_ray,data->num_ray,0,SCREEN_HEIGHT, 1111166);
-		if ((double)((int)(ray->x)) != ray->x)
-		{
-			if (ray->x / 50 -(double)(int)(ray->x /50 ) < 0.5)
-			{
-				print_square(data, data->num_ray, data->num_ray, 0, SCREEN_HEIGHT / 2, 0x000000);
-				print_square(data, data->num_ray, data->num_ray, SCREEN_HEIGHT / 2, SCREEN_HEIGHT, 0xFF00FF);
-			}
-			else
-			{
-				print_square(data, data->num_ray, data->num_ray, 0, SCREEN_HEIGHT / 2, 0xFF00FF);
-				print_square(data, data->num_ray, data->num_ray, SCREEN_HEIGHT / 2, SCREEN_HEIGHT, 0x000000);
-			}
-		}
-		else if ((double)((int)(ray->y)) != ray->y )
-		{
-			if (ray->y / 50 -(double)(int)(ray->y /50 ) < 0.5)
-			{
-				print_square(data, data->num_ray, data->num_ray, 0, SCREEN_HEIGHT / 2, 0x000000);
-				print_square(data, data->num_ray, data->num_ray, SCREEN_HEIGHT / 2, SCREEN_HEIGHT, 0xFF00FF);
-			}
-			else
-			{
-				print_square(data, data->num_ray, data->num_ray, 0, SCREEN_HEIGHT / 2, 0xFF00FF);
-				print_square(data, data->num_ray, data->num_ray, SCREEN_HEIGHT / 2, SCREEN_HEIGHT, 0x000000);
-			}
-		}
+		get_sprite(data, ray, len, start);
 	}
-	//if (data->num_ray == SCREEN_WIDTH / 2)
-		//print_square(data,data->num_ray,data->num_ray,0,SCREEN_HEIGHT, 0x000000);
+	if (data->num_ray == SCREEN_WIDTH / 2)
+		print_square(data,data->num_ray,data->num_ray,0,SCREEN_HEIGHT, 0x000000);
 	return (0);
 }

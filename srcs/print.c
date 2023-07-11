@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 00:00:46 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/10 01:07:08 by nbled            ###   ########.fr       */
+/*   Updated: 2023/07/11 05:39:06 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	print_map(t_data *data)
 				if (screen_y == 0 || screen_x == 0 || screen_y == 99 || screen_x == 99)
 					pixel_put(data, screen_x + 25, screen_y + 25, 0xFFFFFF);
 				else if ((data->player_x + pos_x) >= 0 && (data->player_y + pos_y) >= 0
-						&& (int)(data->player_x + pos_x) < 8 && (int)(data->player_y + pos_y) < 8
+						&& (int)(data->player_x + pos_x) < data->map_widht && (int)(data->player_y + pos_y) < data->map_height
 						&& data->map[(int)(data->player_y + pos_y)][(int)(data->player_x + pos_x)] == '1')
 					pixel_put(data, screen_x + 25, screen_y + 25, 0x999999);
 			pos_x += 0.1;	

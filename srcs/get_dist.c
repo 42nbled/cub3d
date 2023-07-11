@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 16:51:17 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/06 21:50:12 by nbled            ###   ########.fr       */
+/*   Updated: 2023/07/11 05:45:14 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_vec	get_dist_x(t_data *data, t_vec dir, int signe1, int signe2)
 
 	pos.x = (double)((int)(data->player_x + 1 - signe2) * 50);
 	calc_droite_x(data, &pos);
-	if (pos.x >= 0 && pos.x < 400 && pos.y > 0 && pos.y < 400)
+	if (pos.x >= 0 && pos.x < data->map_widht * 50 && pos.y > 0 && pos.y < data->map_height * 50)
 		if (data->map[(int)(pos.y /50)][(int)(pos.x /50) - signe2] == '1')
 			return (pos);
 	dir.x = pos.x;
@@ -43,7 +43,7 @@ t_vec	get_dist_x(t_data *data, t_vec dir, int signe1, int signe2)
 	calc_droite_x(data, &pos);
 	dir.x = pos.x - dir.x;
 	dir.y = pos.y - dir.y;
-	while (pos.x >= 0 && pos.x < 400 && pos.y > 0 && pos.y < 400)
+	while (pos.x >= 0 && pos.x < data->map_widht * 50 && pos.y > 0 && pos.y < data->map_height * 50)
 	{
 		if (data->map[(int)(pos.y /50)][(int)(pos.x /50) - signe2] == '1')
 			return (pos);
@@ -69,7 +69,7 @@ t_vec get_dist_y(t_data *data, t_vec dir, int signe1, int signe2)
 
     pos.y = (double)((int)(data->player_y + 1 - signe2) * 50);
 	calc_droite_y(data, &pos);
-	if (pos.x >= 0 && pos.x < 400 && pos.y > 0 && pos.y < 400)
+	if (pos.x >= 0 && pos.x < data->map_widht * 50 && pos.y > 0 && pos.y < data->map_height * 50)
 		if (data->map[(int)(pos.y / 50) - signe2][(int)(pos.x / 50)] == '1')
 			return (pos);
     tmp.x = pos.x;
@@ -78,7 +78,7 @@ t_vec get_dist_y(t_data *data, t_vec dir, int signe1, int signe2)
     calc_droite_y(data, &pos);
     dir.x = pos.x - tmp.x;
     dir.y = pos.y - tmp.y;
-    while (pos.x >= 0 && pos.x < 400 && pos.y > 0 && pos.y < 400)
+    while (pos.x >= 0 && pos.x < data->map_widht * 50 && pos.y > 0 && pos.y < data->map_height * 50)
     {
         if (data->map[(int)(pos.y / 50) - signe2][(int)(pos.x / 50)] == '1')
             return (pos);

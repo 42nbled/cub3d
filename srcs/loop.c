@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 21:57:20 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/10 06:28:02 by nbled            ###   ########.fr       */
+/*   Updated: 2023/07/11 05:50:54 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	player_movement(t_data *data)
 	double	dy;
 
 	speed = 0.05;
-	rotation_speed = 1.9;
+	rotation_speed = 0.9;
 	dx = cos(data->player_angle);
 	dy = sin(data->player_angle);
 	movement.x = 0;
@@ -129,6 +129,7 @@ int	loop(t_data *data)
 		if (data->ray_angle == 0)
 			data->ray_angle =  0.000001;
 		ray = raycasting(data);
+		(void)ray;
 		if (!isnan(ray.x))
 			print_screen(data, &ray);
 		data->num_ray ++;
@@ -139,6 +140,5 @@ int	loop(t_data *data)
 		print_player(data);
 	}
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
-	mlx_put_image_to_window(data->mlx, data->win, data->north_texture->texture, 0, 0);
 	return (0);
 }
