@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 21:56:26 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/11 05:18:15 by nbled            ###   ########.fr       */
+/*   Updated: 2023/07/13 13:41:06 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,7 @@ int	print_screen(t_data *data, t_vec *ray)
 
 	len = sqrt(pow(fabs(ray->x - data->player_x * 50), 2) + pow(fabs(ray->y - data->player_y * 50), 2));
 	len *= cos(data->ray_angle - data->player_angle);
-	len = (SCREEN_HEIGHT / len) * 16;
+	len = (SCREEN_HEIGHT / len) * 42;
 	start = (SCREEN_HEIGHT - len) / 2;
 	if (len <= SCREEN_HEIGHT)
 	{

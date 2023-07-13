@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 21:57:57 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/09 03:14:21 by nbled            ###   ########.fr       */
+/*   Updated: 2023/07/12 00:53:03 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	handle_press(int keycode, t_data *data)
 		data->minimap = 0;
 	if (keycode == KEY_ESC && data->mouse == 1)
 	{
-		mlx_mouse_show(data->mlx,data->win);
+		mlx_mouse_show(data->mlx, data->win);
 		data->mouse = 0;
 	}
 	else if (keycode == KEY_ESC)
@@ -56,4 +56,3 @@ int	handle_release(int keycode, t_data *data)
 		data->keys[RIGHT] = 0;
 	return (0);
 }
-
