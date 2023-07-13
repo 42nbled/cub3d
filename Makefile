@@ -12,7 +12,10 @@ SRCS = $(addprefix $(SRC_DIR)/, main.c \
 		data_init.c \
 		ft_close.c \
 		hook.c \
-		utils/ft_split.c)
+		parsing.c \
+		utils/ft_split.c \
+		utils/get_next_line_utils.c \
+		utils/get_next_line.c)
 
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 

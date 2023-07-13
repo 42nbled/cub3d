@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 07:07:37 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/13 10:26:57 by nbled            ###   ########.fr       */
+/*   Updated: 2023/07/13 15:09:54 by cde-sede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 
 # define SCREEN_HEIGHT	600
 # define SCREEN_WIDTH	1000
+
+# define BUFFER_SIZE 32
 
 # define RED     "\x1b[31;1m"
 # define GREEN   "\x1b[32;1m"
@@ -55,6 +57,29 @@ typedef struct s_texture {
 	int		line_length;
 	int		endian;
 }				t_texture;
+
+typedef struct s_parse_textures
+{
+	char	*nstr;
+	char	*sstr;
+	char	*estr;
+	char	*wstr;
+	char	*fstr;
+	char	*cstr;
+
+	unsigned int	floor;
+	unsigned int	ceil;
+}	t_parse_textures;
+
+typedef struct s_map
+{
+	int		width;
+	int		height;
+	t_vec	start_pos;
+	double	start_angle;
+	char	**map;
+	t_parse_textures		textures;
+}	t_map;
 
 enum e_keys
 {
@@ -98,7 +123,7 @@ int		handle_release(int keycode, t_data *data);
 
 int		ft_close(t_data *data);
 
-void	data_init(t_data *data);
+int		data_init(t_data *data, t_map *map_data, char *path);
 
 void	get_angle(t_data *data);
 void	player_movement(t_data *data);
@@ -120,5 +145,13 @@ void	print_player(t_data *data);
 int		ft_count_words(const char *s, char c);
 int		ft_str_len(char const *s, char c);
 char	**ft_split(char const *s, char c);
+
+char	*get_next_line(int fd);
+char	*i_want_to_break_free(char *str1, char *str2);
+char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strdup(const char *s);
+int		ft_strlen(const char *s);
+
+int		parsing(int fd, t_map *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 21:57:49 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/06 22:09:10 by nbled            ###   ########.fr       */
+/*   Updated: 2023/07/13 14:52:13 by cde-sede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 int	ft_close(t_data *data)
 {
-	(void)data;
+	mlx_destroy_window(data->mlx, data->win);
 	exit(0);
 }
