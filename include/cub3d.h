@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 07:07:37 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/14 13:42:59 by nbled            ###   ########.fr       */
+/*   Updated: 2023/07/14 14:28:42 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ t_vec	get_dist_x(t_data *data, t_vec dir, int signe1, int signe2);
 t_vec	get_dist_y(t_data *data, t_vec dir, int signe1, int signe2);
 
 void	pixel_put(t_data *data, int x, int y, int color);
-int		print_square(t_data *data, int x_start, int x_end, int y_start, int y_end, int color);
+int		print_line(t_data *data, int y_start, int y_end, int color);
 void	print_map(t_data *data);
 void	print_player(t_data *data);
 
