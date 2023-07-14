@@ -20,6 +20,10 @@ SRCS = $(addprefix $(SRC_DIR)/, main.c \
 		parsing/parsing_2.c \
 		parsing/parsing_3.c \
 		parsing/condition_get.c \
+		utils/ft_atoi.c \
+		utils/ft_is_number.c \
+		utils/ft_strchr.c \
+		utils/ft_strncmp.c \
 		utils/ft_split.c \
 		utils/get_next_line_utils.c \
 		utils/get_next_line.c)

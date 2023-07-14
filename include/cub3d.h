@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 07:07:37 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/14 15:33:13 by cde-sede         ###   ########.fr       */
+/*   Updated: 2023/07/14 16:29:33 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,10 @@ char	*i_want_to_break_free(char *str1, char *str2);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strdup(const char *s);
 int		ft_strlen(const char *s);
+int		ft_atoi(const char *nptr);
+int		is_number(char *str);
+char	*ft_strchr(const char *s, int c);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
 int		parsing(int fd, t_map *data);
 int		free_parse(t_map *data);
