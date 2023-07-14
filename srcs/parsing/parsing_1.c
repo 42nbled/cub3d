@@ -6,7 +6,7 @@
 /*   By: cde-sede <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 14:05:22 by cde-sede          #+#    #+#             */
-/*   Updated: 2023/07/14 17:19:42 by cde-sede         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:44:19 by cde-sede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	**read_map(int fd)
 	return (map);
 }
 
-char	*get_path(char *str)
+char	*get_path(char *str, int *e)
 {
 	char	*dst;
 	int		i;
@@ -68,6 +68,8 @@ char	*get_path(char *str)
 	while (str[i] && (str[i] == ' ' || str[i] == '\t'))
 		i++;
 	dst = malloc(ft_strlen(str) - i + 1);
+	if (!dst)
+		return (*e = 1, NULL);
 	while (str[i] && str[i] != '\n')
 		dst[y++] = str[i++];
 	dst[y] = '\0';
@@ -91,13 +93,15 @@ int	get_color(char *s, int *e)
 	int				i;
 
 	tmp = ft_split(s, ',');
+	if (!tmp)
+		return (*e = 1, 0);
 	c = 0;
 	i = -1;
 	while (tmp && tmp[++i])
 		if (!is_number(tmp[i]))
 			*e = 1;
 	if (i != 3 || *e)
-		return (*e = 1, free_color(tmp), c);
+		return (*e = 1, free_color(tmp), 0);
 	c = (ft_atoi(tmp[0]) << 16) + (ft_atoi(tmp[1]) << 8)
 		+ (ft_atoi(tmp[2]) << 0);
 	free_color(tmp);

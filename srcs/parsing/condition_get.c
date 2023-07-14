@@ -6,7 +6,7 @@
 /*   By: cde-sede <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 14:17:12 by cde-sede          #+#    #+#             */
-/*   Updated: 2023/07/14 16:21:22 by cde-sede         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:46:19 by cde-sede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,57 +14,68 @@
 
 int	condition_get_ns(t_parse_textures *tex, char *s)
 {
+	int	e;
+
+	e = 0;
 	if (strncmp(s, "NO ", 3) == 0 || strncmp(s, "NO\t", 3) == 0)
 	{
 		if (tex->nstr)
 			return (1);
-		tex->nstr = get_path(s);
-		return (0);
+		tex->nstr = get_path(s, &e);
+		return (e);
 	}
 	if (strncmp(s, "SO ", 3) == 0 || strncmp(s, "SO\t", 3) == 0)
 	{
 		if (tex->sstr)
 			return (1);
-		tex->sstr = get_path(s);
-		return (0);
+		tex->sstr = get_path(s, &e);
+		return (e);
 	}
 	return (2);
 }
 
 int	condition_get_ew(t_parse_textures *tex, char *s)
 {
+	int	e;
+
+	e = 0;
 	if (strncmp(s, "EA ", 3) == 0 || strncmp(s, "EA\t", 3) == 0)
 	{
 		if (tex->estr)
 			return (1);
-		tex->estr = get_path(s);
-		return (0);
+		tex->estr = get_path(s, &e);
+		return (e);
 	}
 	if (strncmp(s, "WE ", 3) == 0 || strncmp(s, "WE\t", 3) == 0)
 	{
 		if (tex->wstr)
 			return (1);
-		tex->wstr = get_path(s);
-		return (0);
+		tex->wstr = get_path(s, &e);
+		return (e);
 	}
 	return (2);
 }
 
 int	condition_get_fc(t_parse_textures *tex, char *s, int *fc)
 {
+	int	e;
+
+	e = 0;
 	if (strncmp(s, "F ", 2) == 0 || strncmp(s, "F\t", 2) == 0)
 	{
 		if (*fc & 1)
 			return (1);
-		tex->fstr = get_path(s);
+		tex->fstr = get_path(s, &e);
 		*fc |= 1;
+		return (e);
 	}
-	else if (strncmp(s, "C ", 2) == 0 || strncmp(s, "C\t", 2) == 0)
+	if (strncmp(s, "C ", 2) == 0 || strncmp(s, "C\t", 2) == 0)
 	{
 		if (*fc & 2)
 			return (1);
-		tex->cstr = get_path(s);
+		tex->cstr = get_path(s, &e);
 		*fc |= 2;
+		return (e);
 	}
 	return (2);
 }

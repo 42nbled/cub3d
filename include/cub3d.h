@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 07:07:37 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/14 17:36:23 by nbled            ###   ########.fr       */
+/*   Updated: 2023/07/14 17:43:23 by cde-sede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,7 @@ int		copy_map(t_map *data, char **src, int i);
 int		check_validity(t_map *data);
 int		get_color(char *s, int *e);
 int		get_startpos(t_map *data);
-char	*get_path(char *str);
+char	*get_path(char *str, int *e);
 
 void	norm_vec(t_vec *v);
 
