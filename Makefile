@@ -33,7 +33,7 @@ MLX_PATH = $(MLX_DIR)/libmlx.a
 
 # Compiling options
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g -I $(MLX_DIR) -I include
+CFLAGS = -Wall -Wextra -Werror -g -I $(MLX_DIR) -I include -MMD -MP
 MFLAGS = -L $(MLX_DIR) -lmlx -lm -lX11 -lXext -lpthread
 
 $(NAME): $(OBJS) $(MLX_PATH)
@@ -65,4 +65,5 @@ fclean: clean
 
 re: fclean all
 
+-include $(OBJS:.o=.d)
 .PHONY: all clean fclean re
