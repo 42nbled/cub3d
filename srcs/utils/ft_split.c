@@ -3,71 +3,93 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cde-sede <clement.desede@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/05 23:58:10 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/14 16:20:03 by nbled            ###   ########.fr       */
+/*   Created: 2021/11/22 22:11:34 by cde-sede          #+#    #+#             */
+/*   Updated: 2023/07/14 18:02:22 by cde-sede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "libft.h"
 
-int	ft_count_words(const char *s, char c)
+static int	ft_count_words(char const *s, char c)
 {
+	int	count;
 	int	i;
-	int	j;
 
+	count = 0;
 	i = 0;
-	j = 0;
 	while (s[i])
 	{
 		while (s[i] && s[i] == c)
 			i++;
 		if (s[i] && s[i] != c)
-			j++;
+			count++;
 		while (s[i] && s[i] != c)
 			i++;
 	}
-	return (j);
+	return (count);
 }
 
-int	ft_str_len(char const *s, char c)
+static int	ft_str_len(char const *s, char c)
 {
+	int	len;
 	int	i;
-	int	j;
 
 	i = 0;
-	j = 0;
+	len = 0;
 	while (s[i] == c)
 		i++;
-	while (s[i + j] && s[i + j] != c)
-		j++;
-	return (j);
+	while (s[i] && s[i] != c)
+	{
+		i++;
+		len++;
+	}
+	return (len);
+}
+
+static char	*fill_tab(char *tab, char const *s, char c, int *k)
+{
+	int	j;
+
+	j = 0;
+	while (s[(*k)] && s[(*k)] == c)
+		(*k)++;
+	while (s[(*k)] && s[(*k)] != c)
+		tab[j++] = s[(*k)++];
+	tab[j] = '\0';
+	return (tab);
+}
+
+static char	**str_del(char **tab, int i)
+{
+	int	j;
+
+	j = 0;
+	while (j < i)
+		free(tab[j]);
+	return (NULL);
 }
 
 char	**ft_split(char const *s, char c)
 {
 	char	**tab;
-	int		size;
 	int		i;
-	int		j;
 	int		k;
 
-	i = 0;
-	j = 0;
-	size = ft_count_words(s, c);
-	tab = malloc(sizeof(char *) * (size + 1));
+	if (!s)
+		return (NULL);
+	tab = malloc(sizeof(char *) * (ft_count_words(s, c) + 1));
 	if (!tab)
 		return (NULL);
+	i = 0;
+	k = 0;
 	while (i < ft_count_words(s, c))
 	{
-		tab[i] = malloc(ft_str_len(s + j, c) + 1);
-		k = 0;
-		while (s[j] && s[j] == c)
-			j++;
-		while (s[j] && s[j] != c)
-			tab[i][k++] = s[j++];
-		tab[i][k] = '\0';
+		tab[i] = malloc(ft_str_len(s + k, c) + 1);
+		if (!tab[i])
+			return (str_del(tab, i));
+		tab[i] = fill_tab(tab[i], s, c, &k);
 		i++;
 	}
 	tab[i] = NULL;
