@@ -6,28 +6,48 @@
 /*   By: cde-sede <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 14:05:22 by cde-sede          #+#    #+#             */
-/*   Updated: 2023/07/14 16:38:37 by cde-sede         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:08:54 by cde-sede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+char	**append_map(char **c, char *s)
+{
+	int		i;
+	char	**n;
+
+	i = -1;
+	if (c)
+		while (c[++i])
+			;
+	else
+		i = 0;
+	n = malloc(sizeof(char *) * (i + 2));
+	i = -1;
+	if (c)
+		while (c[++i])
+			n[i] = c[i];
+	else
+		i = 0;
+	n[i++] = s;
+	n[i] = NULL;
+	free(c);
+	return (n);
+}
+
 char	**read_map(int fd)
 {
 	char	**map;
 	char	*line;
-	char	*s;
 
-	s = NULL;
-	line = "";
-	while (line != NULL)
+	line = NULL;
+	map = NULL;
+	while (map == NULL || line != NULL)
 	{
 		line = get_next_line(fd);
-		s = ft_strjoin(s, line);
-		free(line);
+		map = append_map(map, line);
 	}
-	map = ft_split(s, '\n');
-	free(s);
 	return (map);
 }
 
@@ -74,15 +94,8 @@ int	get_color(char *s, int *e)
 			*e = 1;
 	if (i != 3 || *e)
 		return (*e = 1, free_color(tmp), c);
-	c = (ft_atoi(tmp[0]) << 16) + (ft_atoi(tmp[1]) << 8) + (ft_atoi(tmp[2]) << 0);
+	c = (ft_atoi(tmp[0]) << 16) + (ft_atoi(tmp[1]) << 8)
+		+ (ft_atoi(tmp[2]) << 0);
 	free_color(tmp);
 	return (c);
-}
-
-void	struct_init(t_map *data)
-{
-	data->textures = (t_parse_textures){0};
-	data->map = NULL;
-	data->width = -1;
-	data->height = -1;
 }

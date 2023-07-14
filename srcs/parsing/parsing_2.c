@@ -6,7 +6,7 @@
 /*   By: cde-sede <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 14:05:49 by cde-sede          #+#    #+#             */
-/*   Updated: 2023/07/14 16:43:42 by cde-sede         ###   ########.fr       */
+/*   Updated: 2023/07/14 16:49:08 by cde-sede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void	copy_map(t_map *data, char **src, int i)
 	data->map = malloc(sizeof(char **) * (data->height + 1));
 	while (++y < data->height)
 	{
-		printf("src[%d]=%s\n", y, src[y]);
 		data->map[y] = malloc(sizeof(char *) * (data->width + 1));
 		x = -1;
 		while (++x < ft_strlen(src[y + i]))

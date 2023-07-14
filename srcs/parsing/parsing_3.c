@@ -6,11 +6,19 @@
 /*   By: cde-sede <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 14:06:29 by cde-sede          #+#    #+#             */
-/*   Updated: 2023/07/14 16:22:21 by cde-sede         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:08:54 by cde-sede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	struct_init(t_map *data)
+{
+	data->textures = (t_parse_textures){0};
+	data->map = NULL;
+	data->width = -1;
+	data->height = -1;
+}
 
 void	finalise_tex(t_parse_textures *tex, int *e)
 {
