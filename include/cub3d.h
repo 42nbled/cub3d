@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 07:07:37 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/14 17:43:23 by cde-sede         ###   ########.fr       */
+/*   Updated: 2023/07/14 18:50:16 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,16 +118,18 @@ typedef struct s_data {
 
 	int			floor;
 	int			ceil;
-	t_texture	*north_texture;
-	t_texture	*south_texture;
-	t_texture	*est_texture;
-	t_texture	*west_texture;
+	t_texture	north_texture;
+	t_texture	south_texture;
+	t_texture	est_texture;
+	t_texture	west_texture;
 }				t_data;
 
 int		handle_press(int keycode, t_data *data);
 int		handle_release(int keycode, t_data *data);
 
 int		ft_close(t_data *data);
+void	clear_mlx(t_data *data, t_map *map_data);
+void	free_tex_str(t_map *map_data);
 
 int		data_init(t_data *data, t_map *map_data, char *path);
 

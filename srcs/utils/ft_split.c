@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cde-sede <clement.desede@gmail.com>        +#+  +:+       +#+        */
+/*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 22:11:34 by cde-sede          #+#    #+#             */
-/*   Updated: 2023/07/14 18:02:22 by cde-sede         ###   ########.fr       */
+/*   Updated: 2023/07/14 18:07:24 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "cub3d.h"
 
-static int	ft_count_words(char const *s, char c)
+static int	ft_count_words2(char const *s, char c)
 {
 	int	count;
 	int	i;
@@ -31,7 +31,7 @@ static int	ft_count_words(char const *s, char c)
 	return (count);
 }
 
-static int	ft_str_len(char const *s, char c)
+static int	ft_str_len2(char const *s, char c)
 {
 	int	len;
 	int	i;
@@ -79,16 +79,16 @@ char	**ft_split(char const *s, char c)
 
 	if (!s)
 		return (NULL);
-	tab = malloc(sizeof(char *) * (ft_count_words(s, c) + 1));
+	tab = malloc(sizeof(char *) * (ft_count_words2(s, c) + 1));
 	if (!tab)
 		return (NULL);
 	i = 0;
 	k = 0;
-	while (i < ft_count_words(s, c))
+	while (i < ft_count_words2(s, c))
 	{
-		tab[i] = malloc(ft_str_len(s + k, c) + 1);
+		tab[i] = malloc(ft_str_len2(s + k, c) + 1);
 		if (!tab[i])
-			return (str_del(tab, i));
+			return (str_del(tab, i), free(tab), NULL);
 		tab[i] = fill_tab(tab[i], s, c, &k);
 		i++;
 	}
