@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 14:05:22 by cde-sede          #+#    #+#             */
-/*   Updated: 2023/07/14 17:51:42 by nbled            ###   ########.fr       */
+/*   Updated: 2023/07/14 17:54:09 by cde-sede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ char	**read_map(int fd)
 	while (map == NULL || line != NULL)
 	{
 		line = get_next_line(fd);
-		if (!line)
-			return (free_map(map), NULL);
 		map = append_map(map, line);
 		if (!map)
 			return (free(line), NULL);
