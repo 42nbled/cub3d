@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 06:59:35 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/14 12:46:35 by nbled            ###   ########.fr       */
+/*   Updated: 2023/07/14 14:02:00 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int	main(int ac, char **av)
 	if (data_init(&data, &map_data, av[1]))
 	{
 		printf("Parsing error");
-
 		return (1);
 	}
 	mlx_mouse_hook(data.win, mouse_hook, &data);

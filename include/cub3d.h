@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 07:07:37 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/14 13:13:37 by nbled            ###   ########.fr       */
+/*   Updated: 2023/07/14 13:42:59 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,8 @@ typedef struct s_data {
 	int			mouse;
 	int			minimap;
 
+	int			floor;
+	int			ceil;
 	t_texture	*north_texture;
 	t_texture	*south_texture;
 	t_texture	*est_texture;
