@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 21:56:26 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/14 13:45:20 by nbled            ###   ########.fr       */
+/*   Updated: 2023/07/14 14:28:38 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void print_texture_north(t_data *data, t_vec *ray, double len, double start)
     while (i < data->north_texture->x && start + size * i < SCREEN_HEIGHT)
     {
         unsigned int color = *pixel;
-        print_square(data, data->num_ray, data->num_ray, start + size * i, start + size * (i + 1), color);
+        print_line(data, start + size * i, start + size * (i + 1), color);
         pixel+=data->north_texture->y;
 		i ++;
     }
@@ -86,7 +86,7 @@ void print_texture_south(t_data *data, t_vec *ray, double len, double start)
     while (i < data->south_texture->x && start + size * i < SCREEN_HEIGHT)
     {
         unsigned int color = *pixel;
-        print_square(data, data->num_ray, data->num_ray, start + size * i, start + size * (i + 1), color);
+        print_line(data, start + size * i, start + size * (i + 1), color);
         pixel+=data->south_texture->y;
 		i ++;
     }
@@ -126,7 +126,7 @@ void print_texture_west(t_data *data, t_vec *ray, double len, double start)
     while (i < data->west_texture->x && start + size * i < SCREEN_HEIGHT)
     {
         unsigned int color = *pixel;
-        print_square(data, data->num_ray, data->num_ray, start + size * i, start + size * (i + 1), color);
+        print_line(data, start + size * i, start + size * (i + 1), color);
         pixel+=data->west_texture->y;
 		i ++;
     }
@@ -166,7 +166,7 @@ void print_texture_est(t_data *data, t_vec *ray, double len, double start)
     while (i < data->est_texture->x && start + size * i < SCREEN_HEIGHT)
     {
         unsigned int color = *pixel;
-        print_square(data, data->num_ray, data->num_ray, start + size * i, start + size * (i + 1), color);
+        print_line(data, start + size * i, start + size * (i + 1), color);
         pixel+=data->est_texture->y;
 		i ++;
     }
@@ -196,9 +196,9 @@ int	print_screen(t_data *data, t_vec *ray)
 	start = (SCREEN_HEIGHT - len) / 2;
 	if (len <= SCREEN_HEIGHT)
 	{
-		print_square(data, data->num_ray, data->num_ray, 0, start, data->ceil);
+		print_line(data, 0, start, data->ceil);
 		get_sprite(data, ray, len, start);
-		print_square(data,data->num_ray,data->num_ray,start + len,SCREEN_HEIGHT, data->floor);
+		print_line(data, start + len,SCREEN_HEIGHT, data->floor);
 	}
 	else
 	{
