@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cde-sede <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 12:02:32 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/13 15:28:19 by cde-sede         ###   ########.fr       */
+/*   Updated: 2023/07/14 13:11:59 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,6 +213,7 @@ void	free_map(char **map)
 		free(map[x]);
 	free(map);
 }
+
 int	free_parse(t_map *data)
 {
 	free_map(data->map);

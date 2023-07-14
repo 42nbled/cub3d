@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 21:57:35 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/13 15:23:33 by cde-sede         ###   ########.fr       */
+/*   Updated: 2023/07/14 13:12:36 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@ void	init_textures(t_data *data, t_map *map_data)
 	data->est_texture->texture = mlx_xpm_file_to_image(data->mlx, map_data->textures.estr, &data->est_texture->x, &data->est_texture->y);
 	data->west_texture = malloc(sizeof(t_texture));
 	data->west_texture->texture = mlx_xpm_file_to_image(data->mlx, map_data->textures.wstr, &data->west_texture->x, &data->west_texture->y);
+	free(map_data->textures.nstr);
+	free(map_data->textures.sstr);
+	free(map_data->textures.estr);
+	free(map_data->textures.wstr);
+	free(map_data->textures.fstr);
+	free(map_data->textures.cstr);
 }
 
 int	data_init(t_data *data, t_map *map_data, char *path)
@@ -44,7 +50,7 @@ int	data_init(t_data *data, t_map *map_data, char *path)
 	close(fd);
 	data->map_widht = map_data->width;
 	data->map_height = map_data->height;
-	data->map = (char **)map_data->map;
+	data->map = map_data->map;
 	init_textures(data, map_data);
 	data->player_x = map_data->start_pos.x;
 	data->player_y = map_data->start_pos.y;

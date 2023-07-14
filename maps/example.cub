@@ -1,7 +1,7 @@
-NO ./textures/cobblestone.xpm
-SO ./textures/cobblestone.xpm
-WE ./textures/cobblestone.xpm
-EA ./textures/cobblestone.xpm
+NO ./textures/smouth_stone.xpm
+SO ./textures/smouth_stone.xpm
+WE ./textures/smouth_stone.xpm
+EA ./textures/smouth_stone.xpm
 
 F 220,100,0
 C 225,30,0

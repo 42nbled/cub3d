@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 07:07:37 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/13 15:09:54 by cde-sede         ###   ########.fr       */
+/*   Updated: 2023/07/14 13:13:37 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,12 @@ typedef struct s_texture {
 
 typedef struct s_parse_textures
 {
-	char	*nstr;
-	char	*sstr;
-	char	*estr;
-	char	*wstr;
-	char	*fstr;
-	char	*cstr;
+	char			*nstr;
+	char			*sstr;
+	char			*estr;
+	char			*wstr;
+	char			*fstr;
+	char			*cstr;
 
 	unsigned int	floor;
 	unsigned int	ceil;
@@ -73,12 +73,12 @@ typedef struct s_parse_textures
 
 typedef struct s_map
 {
-	int		width;
-	int		height;
-	t_vec	start_pos;
-	double	start_angle;
-	char	**map;
-	t_parse_textures		textures;
+	int					width;
+	int					height;
+	t_vec				start_pos;
+	double				start_angle;
+	char				**map;
+	t_parse_textures	textures;
 }	t_map;
 
 enum e_keys
@@ -92,25 +92,25 @@ enum e_keys
 };
 
 typedef struct s_data {
-	void	*mlx;
-	void	*win;
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
+	void		*mlx;
+	void		*win;
+	void		*img;
+	char		*addr;
+	int			bits_per_pixel;
+	int			line_length;
+	int			endian;
 
-	double	player_x;
-	double	player_y;
-	double	player_angle;
-	double	ray_angle;
-	double	num_ray;
-	char	**map;
-	int		map_height;
-	int		map_widht;
-	int		keys[6];
-	int		mouse;
-	int		minimap;
+	double		player_x;
+	double		player_y;
+	double		player_angle;
+	double		ray_angle;
+	double		num_ray;
+	char		**map;
+	int			map_height;
+	int			map_widht;
+	int			keys[6];
+	int			mouse;
+	int			minimap;
 
 	t_texture	*north_texture;
 	t_texture	*south_texture;
@@ -153,5 +153,7 @@ char	*ft_strdup(const char *s);
 int		ft_strlen(const char *s);
 
 int		parsing(int fd, t_map *data);
+int		free_parse(t_map *data);
+void	free_map(char **map);
 
 #endif

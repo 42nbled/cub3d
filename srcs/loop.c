@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 21:57:20 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/13 13:41:20 by nbled            ###   ########.fr       */
+/*   Updated: 2023/07/14 12:44:50 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ void	player_movement(t_data *data)
 	double	dx;
 	double	dy;
 
-	speed = 0.07;
-	rotation_speed = 1.4;
+	speed = 0.02;
+	rotation_speed = 0.4;
 	dx = cos(data->player_angle);
 	dy = sin(data->player_angle);
 	movement.x = 0;

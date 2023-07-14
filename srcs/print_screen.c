@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 21:56:26 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/13 13:41:06 by nbled            ###   ########.fr       */
+/*   Updated: 2023/07/14 10:31:01 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,5 @@ int	print_screen(t_data *data, t_vec *ray)
 	{
 		get_sprite(data, ray, len, start);
 	}
-	if (data->num_ray == SCREEN_WIDTH / 2)
-		print_square(data,data->num_ray,data->num_ray,0,SCREEN_HEIGHT, 0x000000);
 	return (0);
 }
