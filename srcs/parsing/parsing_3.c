@@ -6,11 +6,17 @@
 /*   By: cde-sede <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 14:06:29 by cde-sede          #+#    #+#             */
-/*   Updated: 2023/07/14 14:16:32 by cde-sede         ###   ########.fr       */
+/*   Updated: 2023/07/14 14:52:31 by cde-sede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	finalise_tex(t_parse_textures *tex, int *e)
+{
+	tex->floor = get_color(tex->fstr, e);
+	tex->ceil = get_color(tex->cstr, e);
+}
 
 int	parse(char **map, t_map *data)
 {
@@ -32,10 +38,4 @@ int	parse(char **map, t_map *data)
 	if (error)
 		return (free_parse(data));
 	return (error);
-}
-
-void	finalise_tex(t_parse_textures *tex, int *e)
-{
-	tex->floor = get_color(tex->fstr, e);
-	tex->ceil = get_color(tex->cstr, e);
 }

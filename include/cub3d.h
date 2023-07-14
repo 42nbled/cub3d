@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 07:07:37 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/14 14:28:42 by nbled            ###   ########.fr       */
+/*   Updated: 2023/07/14 14:54:00 by cde-sede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,5 +157,17 @@ int		ft_strlen(const char *s);
 int		parsing(int fd, t_map *data);
 int		free_parse(t_map *data);
 void	free_map(char **map);
+
+char	**read_map(int fd);
+void	struct_init(t_map *data);
+int		parse(char **map, t_map *data);
+int		condition_get_all(t_parse_textures *tex, char *s, int *fc);
+int		get_textures(char **map, t_parse_textures *tex, int *e);
+int		get_size_of_map(t_map *data, char **map, int i);
+void	copy_map(t_map *data, char **src, int i);
+int		check_validity(t_map *data);
+int		get_color(char *s, int *e);
+int		get_startpos(t_map *data);
+char	*get_path(char *str);
 
 #endif
