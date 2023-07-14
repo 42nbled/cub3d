@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cde-sede <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 14:05:22 by cde-sede          #+#    #+#             */
-/*   Updated: 2023/07/14 17:44:19 by cde-sede         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:51:42 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,11 @@ char	**read_map(int fd)
 	while (map == NULL || line != NULL)
 	{
 		line = get_next_line(fd);
+		if (!line)
+			return (free_map(map), NULL);
 		map = append_map(map, line);
 		if (!map)
-			return (NULL);
+			return (free(line), NULL);
 	}
 	return (map);
 }

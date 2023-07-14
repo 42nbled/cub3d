@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 12:02:32 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/14 17:20:20 by cde-sede         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:51:35 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	free_map(char **map)
 {
 	int	x;
 
+	if (!map)
+		return ;
 	x = -1;
 	while (map[++x])
 		free(map[x]);
