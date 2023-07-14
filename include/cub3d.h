@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 07:07:37 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/14 16:29:33 by nbled            ###   ########.fr       */
+/*   Updated: 2023/07/14 16:47:40 by cde-sede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,4 +183,5 @@ void	print_texture_north(t_data *data, t_vec *ray, double len, double start);
 void	print_texture_south(t_data *data, t_vec *ray, double len, double start);
 void	print_texture_west(t_data *data, t_vec *ray, double len, double start);
 void	print_texture_est(t_data *data, t_vec *ray, double len, double start);
+
 #endif

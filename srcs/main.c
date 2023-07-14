@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 06:59:35 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/14 15:33:43 by cde-sede         ###   ########.fr       */
+/*   Updated: 2023/07/14 16:10:44 by cde-sede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,9 @@ int	main(int ac, char **av)
 	t_data	data;
 	t_map	map_data;
 
+	if (SCREEN_WIDTH == 0 || SCREEN_WIDTH > 1920
+		|| SCREEN_HEIGHT == 0 || SCREEN_HEIGHT > 1080)
+		return (printf("Invalid screen parameters"), 1);
 	if (ac != 2)
 		return (printf("Not enough arguments"), 1);
 	if (is_file_empty(av[1]) == 0)
