@@ -12,7 +12,11 @@ SRCS = $(addprefix $(SRC_DIR)/, main.c \
 		data_init.c \
 		ft_close.c \
 		hook.c \
-		parsing.c \
+		parsing/parsing.c \
+		parsing/parsing_1.c \
+		parsing/parsing_2.c \
+		parsing/parsing_3.c \
+		parsing/condition_get.c \
 		utils/ft_split.c \
 		utils/get_next_line_utils.c \
 		utils/get_next_line.c)
