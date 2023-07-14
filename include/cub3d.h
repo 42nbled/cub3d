@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 07:07:37 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/14 16:47:40 by cde-sede         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:28:15 by cde-sede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,7 @@ int		parse(char **map, t_map *data);
 int		condition_get_all(t_parse_textures *tex, char *s, int *fc);
 int		get_textures(char **map, t_parse_textures *tex, int *e);
 int		get_size_of_map(t_map *data, char **map, int i);
-void	copy_map(t_map *data, char **src, int i);
+int		copy_map(t_map *data, char **src, int i);
 int		check_validity(t_map *data);
 int		get_color(char *s, int *e);
 int		get_startpos(t_map *data);

@@ -6,7 +6,7 @@
 /*   By: cde-sede <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 14:05:22 by cde-sede          #+#    #+#             */
-/*   Updated: 2023/07/14 17:08:54 by cde-sede         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:19:42 by cde-sede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ char	**append_map(char **c, char *s)
 	else
 		i = 0;
 	n = malloc(sizeof(char *) * (i + 2));
+	if (!n)
+		return (free_map(c), NULL);
 	i = -1;
 	if (c)
 		while (c[++i])
@@ -47,6 +49,8 @@ char	**read_map(int fd)
 	{
 		line = get_next_line(fd);
 		map = append_map(map, line);
+		if (!map)
+			return (NULL);
 	}
 	return (map);
 }

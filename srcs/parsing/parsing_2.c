@@ -6,7 +6,7 @@
 /*   By: cde-sede <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 14:05:49 by cde-sede          #+#    #+#             */
-/*   Updated: 2023/07/14 16:49:08 by cde-sede         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:33:55 by cde-sede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,16 +63,20 @@ int	check_validity(t_map *data)
 	return (0);
 }
 
-void	copy_map(t_map *data, char **src, int i)
+int	copy_map(t_map *data, char **src, int i)
 {
 	int	x;
 	int	y;
 
 	y = -1;
 	data->map = malloc(sizeof(char **) * (data->height + 1));
+	if (!data->map)
+		return (1);
 	while (++y < data->height)
 	{
 		data->map[y] = malloc(sizeof(char *) * (data->width + 1));
+		if (!data->map[y])
+			return (1);
 		x = -1;
 		while (++x < ft_strlen(src[y + i]))
 		{
@@ -85,7 +89,7 @@ void	copy_map(t_map *data, char **src, int i)
 			data->map[y][x++] = ' ';
 		data->map[y][x] = '\0';
 	}
-	data->map[y] = NULL;
+	return (data->map[y] = NULL, 0);
 }
 
 int	condition_tex(t_parse_textures *tex, int fc)

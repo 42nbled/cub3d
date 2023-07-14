@@ -6,7 +6,7 @@
 /*   By: cde-sede <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 14:06:29 by cde-sede          #+#    #+#             */
-/*   Updated: 2023/07/14 17:08:54 by cde-sede         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:33:56 by cde-sede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ int	parse(char **map, t_map *data)
 		i++;
 	if (get_size_of_map(data, map, i))
 		return (1);
-	copy_map(data, map, i);
+	if (copy_map(data, map, i))
+		return (free_parse(data));
 	error = check_validity(data);
 	if (error)
 		return (free_parse(data));

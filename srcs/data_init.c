@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 21:57:35 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/14 15:54:23 by cde-sede         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:18:49 by cde-sede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,24 @@ void	set_var(t_data *data, t_map *map_data)
 	data->ceil = map_data->textures.ceil;
 }
 
+int	check_extension(char *s)
+{
+	int	i;
+
+	i = ft_strlen(s);
+	if (i < 4)
+		return (1);
+	if (s[i - 4] != '.' || s[i - 3] != 'c' || s[i - 2] != 'u' || s[i - 1] != 'b')
+		return (1);
+	return (0);
+}
 int	data_init(t_data *data, t_map *map_data, char *path)
 {
 	int	fd;
 	int	i;
 
+	if (check_extension(path))
+		return (1);
 	i = 0;
 	fd = open(path, O_RDONLY);
 	if (fd <= 0)

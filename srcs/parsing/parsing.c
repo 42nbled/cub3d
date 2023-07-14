@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 12:02:32 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/14 16:21:32 by cde-sede         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:20:20 by cde-sede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ int	parsing(int fd, t_map *data)
 	char	**map;
 
 	map = read_map(fd);
+	if (!map)
+		return (1);
 	struct_init(data);
 	if (parse(map, data) == 1)
 		return (free_map(map), 1);
