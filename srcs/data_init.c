@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 21:57:35 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/14 17:18:49 by cde-sede         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:36:32 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	init_textures(t_data *data, t_map *map_data)
 
 void	set_var(t_data *data, t_map *map_data)
 {
-	data->mouse = 0;
 	data->minimap = 0;
 	data->map_widht = map_data->width;
 	data->map_height = map_data->height;

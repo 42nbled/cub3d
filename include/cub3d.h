@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 07:07:37 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/14 17:28:15 by cde-sede         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:36:23 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # define KEY_Q			113
 # define KEY_E			101
 # define KEY_M			109
+# define KEY_LEFT		65361
+# define KEY_RIGHT		65363
 
 # define SCREEN_HEIGHT	600
 # define SCREEN_WIDTH	1000
@@ -112,7 +114,6 @@ typedef struct s_data {
 	int			map_height;
 	int			map_widht;
 	int			keys[6];
-	int			mouse;
 	int			minimap;
 
 	int			floor;

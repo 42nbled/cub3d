@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 21:57:57 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/12 00:53:03 by nbled            ###   ########.fr       */
+/*   Updated: 2023/07/14 17:33:57 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,14 @@ int	handle_press(int keycode, t_data *data)
 		data->keys[STRAF_L] = 1;
 	if (keycode == KEY_D)
 		data->keys[STRAF_R] = 1;
-	if (keycode == KEY_Q)
+	if (keycode == KEY_Q || keycode == KEY_LEFT)
 		data->keys[LEFT] = 1;
-	if (keycode == KEY_E)
+	if (keycode == KEY_E || keycode == KEY_RIGHT)
 		data->keys[RIGHT] = 1;
 	if (keycode == KEY_M && data->minimap == 0)
 		data->minimap = 1;
 	else if (keycode == KEY_M && data->minimap == 1)
 		data->minimap = 0;
-	if (keycode == KEY_ESC && data->mouse == 1)
-	{
-		mlx_mouse_show(data->mlx, data->win);
-		data->mouse = 0;
-	}
 	else if (keycode == KEY_ESC)
 		ft_close(data);
 	return (0);
@@ -50,9 +45,9 @@ int	handle_release(int keycode, t_data *data)
 		data->keys[STRAF_L] = 0;
 	if (keycode == KEY_D)
 		data->keys[STRAF_R] = 0;
-	if (keycode == KEY_Q)
+	if (keycode == KEY_Q || keycode == KEY_LEFT)
 		data->keys[LEFT] = 0;
-	if (keycode == KEY_E)
+	if (keycode == KEY_E || keycode == KEY_RIGHT)
 		data->keys[RIGHT] = 0;
 	return (0);
 }

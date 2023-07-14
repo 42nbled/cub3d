@@ -6,23 +6,11 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 06:59:35 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/14 16:10:44 by cde-sede         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:17:50 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
-
-int	mouse_hook(int keycode, int x, int y, t_data *data)
-{
-	(void)x;
-	(void)y;
-	if (data->mouse == 0 && keycode == 1)
-	{
-		data->mouse = 1;
-		mlx_mouse_hide(data->mlx, data->win);
-	}
-	return (0);
-}
 
 int	is_file_empty(char *argv)
 {
@@ -52,12 +40,12 @@ int	main(int ac, char **av)
 	if (is_file_empty(av[1]) == 0)
 		return (printf("Empty file"), 1);
 	map_data = (t_map){0};
+	data = (t_data){0};
 	if (data_init(&data, &map_data, av[1]))
 	{
 		printf("Parsing error");
 		return (1);
 	}
-	mlx_mouse_hook(data.win, mouse_hook, &data);
 	mlx_hook(data.win, KeyRelease, KeyReleaseMask, handle_release, &data);
 	mlx_hook(data.win, KeyPress, KeyPressMask, handle_press, &data);
 	mlx_hook(data.win, 17, 0, ft_close, &data);

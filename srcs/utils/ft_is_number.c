@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:18:09 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/14 16:29:24 by nbled            ###   ########.fr       */
+/*   Updated: 2023/07/14 17:11:23 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	is_number(char *str)
 	int	i;
 
 	i = 0;
+	while (str[i] == ' ' || str[i] == '\t')
+		i++;
 	if (str[i] == '-')
 		i++;
 	while (str[i])
@@ -31,4 +33,3 @@ int	is_number(char *str)
 			return (0);
 	return (1);
 }
-

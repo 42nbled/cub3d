@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 21:57:20 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/14 15:22:38 by cde-sede         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:12:30 by nbled            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,33 +39,11 @@ void	norm_vec(t_vec *v)
 	v->y *= PLAYER_SPEED;
 }
 
-void	mouse_movement(t_data *data)
-{
-	int		x;
-	int		y;
-	double	dx;
-	double	da;
-
-	x = 0;
-	y = 0;
-	mlx_mouse_get_pos(data->mlx, data->win, &x, &y);
-	if (data->mouse == 1)
-		mlx_mouse_move(data->mlx, data->win,
-			SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-	dx = (x - SCREEN_WIDTH / 2.0f) / (SCREEN_WIDTH / 2.f);
-	da = pow(fabs(dx), 1.714f) * 40;
-	if (data->mouse == 1 && x < SCREEN_WIDTH / 2)
-		data->player_angle -= da * ROT_SPEED / 180.f * M_PI * 20;
-	else if (data->mouse == 1 && x > SCREEN_WIDTH / 2)
-		data->player_angle += da * ROT_SPEED / 180.f * M_PI * 20;
-}
-
 int	loop(t_data *data)
 {
 	t_vec	ray;
 
 	player_movement(data);
-	mouse_movement(data);
 	data->num_ray = 0;
 	while (data->num_ray < SCREEN_WIDTH)
 	{
