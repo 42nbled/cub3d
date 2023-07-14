@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 07:07:37 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/14 14:54:00 by cde-sede         ###   ########.fr       */
+/*   Updated: 2023/07/14 15:10:11 by cde-sede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@
 # define SCREEN_WIDTH	1000
 
 # define BUFFER_SIZE 32
+
+# define PLAYER_SPEED 0.02f
+# define ROT_SPEED 0.4f
 
 # define RED     "\x1b[31;1m"
 # define GREEN   "\x1b[32;1m"
@@ -169,5 +172,7 @@ int		check_validity(t_map *data);
 int		get_color(char *s, int *e);
 int		get_startpos(t_map *data);
 char	*get_path(char *str);
+
+void	norm_vec(t_vec *v);
 
 #endif

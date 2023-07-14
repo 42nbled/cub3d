@@ -9,6 +9,7 @@ SRCS = $(addprefix $(SRC_DIR)/, main.c \
 		raycasting.c \
 		print_screen.c \
 		loop.c \
+		loop_2.c \
 		data_init.c \
 		ft_close.c \
 		hook.c \
