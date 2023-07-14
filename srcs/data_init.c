@@ -6,7 +6,7 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 21:57:35 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/14 14:01:39 by nbled            ###   ########.fr       */
+/*   Updated: 2023/07/14 15:54:23 by cde-sede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,22 @@ void	init_textures(t_data *data, t_map *map_data)
 	free(map_data->textures.cstr);
 }
 
+void	set_var(t_data *data, t_map *map_data)
+{
+	data->mouse = 0;
+	data->minimap = 0;
+	data->map_widht = map_data->width;
+	data->map_height = map_data->height;
+	data->map = map_data->map;
+	init_textures(data, map_data);
+	data->player_x = map_data->start_pos.x;
+	data->player_y = map_data->start_pos.y;
+	data->player_angle = map_data->start_angle;
+	data->player_angle += 0.01f;
+	data->floor = map_data->textures.floor;
+	data->ceil = map_data->textures.ceil;
+}
+
 int	data_init(t_data *data, t_map *map_data, char *path)
 {
 	int	fd;
@@ -57,17 +73,6 @@ int	data_init(t_data *data, t_map *map_data, char *path)
 			&data->line_length, &data->endian);
 	while (i < 6)
 		data->keys[i++] = 0;
-	data->mouse = 0;
-	data->minimap = 0;
-	data->map_widht = map_data->width;
-	data->map_height = map_data->height;
-	data->map = map_data->map;
-	init_textures(data, map_data);
-	data->player_x = map_data->start_pos.x;
-	data->player_y = map_data->start_pos.y;
-	data->player_angle = map_data->start_angle;
-	data->player_angle += 0.01f;
-	data->floor = map_data->textures.floor;
-	data->ceil = map_data->textures.ceil;
+	set_var(data, map_data);
 	return (0);
 }

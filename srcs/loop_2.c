@@ -6,7 +6,7 @@
 /*   By: cde-sede <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:08:57 by cde-sede          #+#    #+#             */
-/*   Updated: 2023/07/14 15:09:37 by cde-sede         ###   ########.fr       */
+/*   Updated: 2023/07/14 15:38:10 by cde-sede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,42 +58,29 @@ void	apply_mov(t_data *data, t_vec v)
 
 void	player_movement(t_data *data)
 {
-	t_vec	movement;
-	double	dx;
-	double	dy;
+	t_vec	dir;
 
-	dx = cos(data->player_angle);
-	dy = sin(data->player_angle);
-	movement.x = 0;
-	movement.y = 0;
+	dir = (t_vec){0};
 	if (data->keys[UP])
-	{
-		movement.x += dx;
-		movement.y += dy;
-	}
+		vec_add(&dir,
+			(t_vec){cos(data->player_angle), sin(data->player_angle)});
 	if (data->keys[DOWN])
-	{
-		movement.x -= dx;
-		movement.y -= dy;
-	}
+		vec_add(&dir,
+			(t_vec){-cos(data->player_angle), -sin(data->player_angle)});
 	if (data->keys[STRAF_L])
 	{
-		dx = cos(data->player_angle - M_PI_2);
-		dy = sin(data->player_angle - M_PI_2);
-		movement.x += dx;
-		movement.y += dy;
+		dir.x += cos(data->player_angle - M_PI_2);
+		dir.y += sin(data->player_angle - M_PI_2);
 	}
 	if (data->keys[STRAF_R])
 	{
-		dx = cos(data->player_angle + M_PI_2);
-		dy = sin(data->player_angle + M_PI_2);
-		movement.x += dx;
-		movement.y += dy;
+		dir.x += cos(data->player_angle + M_PI_2);
+		dir.y += sin(data->player_angle + M_PI_2);
 	}
 	if (data->keys[LEFT])
 		data->player_angle -= ROT_SPEED / 180.f * M_PI;
 	if (data->keys[RIGHT])
 		data->player_angle += ROT_SPEED / 180.f * M_PI;
-	if (movement.x || movement.y)
-		apply_mov(data, movement);
+	if (dir.x || dir.y)
+		apply_mov(data, dir);
 }

@@ -6,20 +6,20 @@
 /*   By: nbled <nbled@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 06:59:35 by nbled             #+#    #+#             */
-/*   Updated: 2023/07/14 14:02:00 by nbled            ###   ########.fr       */
+/*   Updated: 2023/07/14 15:33:43 by cde-sede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-int	mouse_hook(int keycode, int x,int y, t_data *data)
+int	mouse_hook(int keycode, int x, int y, t_data *data)
 {
 	(void)x;
 	(void)y;
 	if (data->mouse == 0 && keycode == 1)
 	{
 		data->mouse = 1;
-		mlx_mouse_hide(data->mlx,data->win);
+		mlx_mouse_hide(data->mlx, data->win);
 	}
 	return (0);
 }
@@ -48,8 +48,7 @@ int	main(int ac, char **av)
 		return (printf("Not enough arguments"), 1);
 	if (is_file_empty(av[1]) == 0)
 		return (printf("Empty file"), 1);
-
-	map_data = (t_map){ 0 };
+	map_data = (t_map){0};
 	if (data_init(&data, &map_data, av[1]))
 	{
 		printf("Parsing error");
