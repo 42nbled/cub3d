@@ -1,0 +1,3 @@
+# cub3D
+
+The cub3D project involves creating a basic 3D raycasting engine to simulate navigating through a maze from a first-person perspective, using the MiniLibX library. The program must read a .cub file describing the scene, including wall textures, floor and ceiling colors, and a valid map layout. Players can move and look around the maze using keyboard controls (WASD and arrow keys), while collisions with walls must be handled appropriately. The map must be enclosed by walls and parsed correctly, with detailed error handling for misconfigurations. The project emphasizes graphics programming, file parsing, and memory management, implementing wall collision detection and a minimap system for added functionality.
